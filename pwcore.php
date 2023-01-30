@@ -6,9 +6,40 @@ Description: Core plugin for Publish Wiki Pages
 Version: 0.1.0
 Author: Brian Tuju
 Author URI: https://github.com/briantuju
-Text Domain: pwpages
+Text Domain: pwcore
 */
 
+// Plugin must be accessed via WordPress itself
 if (!defined('ABSPATH')) {
   die('NOPE! You cannot be here.');
+}
+
+if (!class_exists('PWCore')) {
+
+  /**
+   * This is the core class that will be used with the plugin.
+   */
+  class PWCore
+  {
+
+    public function __construct()
+    {
+      /**
+       * PWCore plugin path
+       */
+      define('PW_PLUGIN_PATH', plugin_dir_path(__FILE__));
+
+      require_once(PW_PLUGIN_PATH . '/vendor/autoload.php');
+    }
+
+    public function initialize()
+    {
+      include_once PW_PLUGIN_PATH . '/includes/utilities.php';
+      include_once PW_PLUGIN_PATH . '/includes/options-page.php';
+    }
+  }
+
+  $pwcore_plugin = new PWCore;
+
+  $pwcore_plugin->initialize();
 }
