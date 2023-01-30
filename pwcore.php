@@ -14,6 +14,8 @@ if (!defined('ABSPATH')) {
   die('NOPE! You cannot be here.');
 }
 
+error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_USER_DEPRECATED & ~E_NOTICE);
+
 if (!class_exists('PWCore')) {
 
   /**
