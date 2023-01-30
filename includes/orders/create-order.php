@@ -6,6 +6,8 @@ add_action('wp_enqueue_scripts', 'pwcore_enqueue_assets');
 
 add_action('rest_api_init', 'pwcore_create_rest_endpoints');
 
+add_action('init', 'pwcore_create_orders_page');
+
 function pwcore_create_order_form()
 {
   include PW_PLUGIN_PATH . './includes/templates/orders/new-order-form.php';
@@ -20,6 +22,20 @@ function pwcore_enqueue_assets()
   );
 }
 
+function pwcore_create_orders_page()
+{
+  $args = [
+    'public' => true,
+    'has_archive' => true,
+    'labels' => [
+      'name' => 'Orders',
+      'singular_name' => 'Order'
+    ],
+    'supports' => ['title', 'editor', 'author', 'custom-fields']
+  ];
+
+  register_post_type('pw_orders', $args);
+}
 
 function pwcore_create_rest_endpoints()
 {
@@ -49,7 +65,23 @@ function pwcore_store_order(WP_REST_Request $data)
   $message = "<p style='font-size: larger; color: brown'>A new order has been placed</p>";
   $subject = "New Order";
 
+  pwcore_save_order($params);
+
   wp_mail($admin_mail, $subject, $message, $headers);
 
   return new WP_REST_Response('Order created', 201);
+}
+
+function pwcore_save_order(array $data)
+{
+  $order_data = [
+    'post_title' => $data['topic'],
+    'post_type' => 'pw_orders'
+  ];
+
+  $post_id = wp_insert_post($order_data);
+
+  foreach ($data as $key => $value) {
+    add_post_meta($post_id, $key, $value);
+  }
 }

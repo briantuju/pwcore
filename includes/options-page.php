@@ -20,7 +20,7 @@ function create_options_page()
 {
   Container::make('theme_options', __('PW Core', 'pwcore'))
     ->add_fields([
-      Field::make('checkbox', 'pwcore_is_active', __('Is Active', 'pwcore'))
+      Field::make('checkbox', 'pw_is_active', __('Is Active', 'pwcore'))
         ->set_option_value('yes')
     ]);
 }
