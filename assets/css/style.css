@@ -1,0 +1,114 @@
+:root {
+  --color-primary: #112d4e;
+  --color-secondary: #3f72af;
+  --color-text: #212121;
+  --color-white: #ffffff;
+  --color-light: #f7f7f7;
+  --color-dark: #222831;
+  --color-dark-50: #393e46;
+  --color-link: #3f72af;
+  --color-success: #68b984;
+  --color-error: #ff0032;
+  --color-warning: #ff6e31;
+  --color-blue-faint: #3f72af0d;
+  --color-transoarent: #00000000;
+
+  --font-size: 16px;
+  --font-huge: bold 60px "Lato", sans-serif;
+  --font-h1: bold 44px "Lato", sans-serif;
+  --font-h2: bold 32px "Lato", sans-serif;
+  --font-h3: bold 16px "Lato", sans-serif;
+
+  --line-height: 24px;
+
+  --btn-font: bold 16px "Lato", sans-serif;
+
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  --rounded-none: none;
+  --rounded-sm: 4px;
+  --rounded: 8px;
+  --rounded-md: 12px;
+  --rounded-lg: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  box-sizing: inherit;
+  background-color: var(--color-light);
+  color: var(--color-text);
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  width: 1140px;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  width: max-content;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+}
+
+input,
+textarea {
+  padding: 0.5rem 0.75rem;
+  color: var(--color-dark);
+  line-height: 1.25;
+  min-width: 320px;
+  max-width: 420px;
+  border-radius: 0.25rem;
+  border: none;
+  outline: 1px solid #cecece;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
+  width: max-content;
+  letter-spacing: 1px;
+  border-radius: var(--rounded-sm);
+  box-shadow: var(--shadow);
+  color: var(--color-light);
+  background-color: var(--color-primary);
+  transition: all ease-in-out 0.3s;
+}
+button:hover {
+  background-color: var(--color-secondary);
+  box-shadow: var(--shadow-lg);
+}
+
+.pw_new_order_form {
+  padding: 1rem;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--rounded-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 420px;
+}

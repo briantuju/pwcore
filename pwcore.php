@@ -29,6 +29,11 @@ if (!class_exists('PWCore')) {
        */
       define('PW_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
+      /**
+       * PWCore plugin url
+       */
+      define('PW_PLUGIN_URL', plugin_dir_url(__FILE__));
+
       require_once(PW_PLUGIN_PATH . '/vendor/autoload.php');
     }
 
@@ -36,6 +41,7 @@ if (!class_exists('PWCore')) {
     {
       include_once PW_PLUGIN_PATH . '/includes/utilities.php';
       include_once PW_PLUGIN_PATH . '/includes/options-page.php';
+      include_once PW_PLUGIN_PATH . '/includes/orders/create-order.php';
     }
   }
 
