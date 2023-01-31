@@ -41,6 +41,7 @@ function pwcore_create_meta_box()
 function pwcore_custom_orders_columns(array $columns)
 {
   $custom_columns = [
+    'cb' => __($columns['cb'], 'pwcore'),
     'topic' => __('Order Topic', 'pwcore'),
     'service_id' => __('Service', 'pwcore'),
     'deadline' => __('Order Deadline', 'pwcore'),
@@ -124,6 +125,14 @@ function pwcore_store_order(WP_REST_Request $data)
   //   return new WP_REST_Response(null, 422);
   // }
 
+  // Validate data
+  $params['topic'] = ucfirst(sanitize_text_field($params['topic']));
+  $params['description'] = sanitize_textarea_field($params['description']);
+  $params['deadline'] = sanitize_text_field($params['deadline']);
+  $params['service_id'] = sanitize_text_field($params['service_id']);
+  unset($params['_wpnonce']);
+  unset($params['_wp_http_referer']);
+
   // Send email to admin
   $admin_mail = get_bloginfo('admin_email');
   $admin_name = get_bloginfo('name');
@@ -135,9 +144,7 @@ function pwcore_store_order(WP_REST_Request $data)
   $message = "<p style='font-size: larger; color: brown'>A new order has been placed</p>";
   $subject = "New Order";
 
-  // Clean unwanted data before saving
-  unset($params['_wpnonce']);
-  unset($params['_wp_http_referer']);
+  // Save order
   pwcore_save_order($params);
 
   wp_mail($admin_mail, $subject, $message, $headers);
