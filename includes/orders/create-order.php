@@ -10,6 +10,10 @@ add_action('init', 'pwcore_create_orders_page');
 
 add_action('add_meta_boxes', 'pwcore_create_meta_box');
 
+add_filter('manage_pw_orders_posts_columns', 'pwcore_custom_orders_columns');
+
+add_action('manage_pw_orders_posts_custom_column', 'pwcore_fill_orders_columns', 10, 2);
+
 function pwcore_create_order_form()
 {
   include PW_PLUGIN_PATH . './includes/templates/orders/new-order-form.php';
@@ -32,6 +36,35 @@ function pwcore_create_meta_box()
     'pwcore_show_order',
     'pw_orders'
   );
+}
+
+function pwcore_custom_orders_columns(array $columns)
+{
+  $custom_columns = [
+    'topic' => __('Order Topic', 'pwcore'),
+    'service_id' => __('Service', 'pwcore'),
+    'deadline' => __('Order Deadline', 'pwcore'),
+    'date' => __($columns['date'], 'pwcore')
+  ];
+
+  return $custom_columns;
+}
+
+function pwcore_fill_orders_columns($column, $post_id)
+{
+  switch ($column) {
+    case 'topic':
+      echo get_post_meta($post_id, 'topic', true);
+      break;
+    case 'deadline':
+      echo get_post_meta($post_id, 'deadline', true);
+      break;
+    case 'service_id':
+      echo get_post_meta($post_id, 'service_id', true);
+      break;
+    default:
+      break;
+  }
 }
 
 function pwcore_show_order()
@@ -67,7 +100,8 @@ function pwcore_create_orders_page()
     'capabilities' => [
       'create_posts' => false
     ],
-    'map_meta_cap' => true
+    'map_meta_cap' => true,
+    'rewrite' => ['slug' => 'orders']
   ];
 
   register_post_type('pw_orders', $args);
