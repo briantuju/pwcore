@@ -80,20 +80,21 @@ function pwcore_show_order(): void {
 
 function pwcore_create_orders_page(): void {
   $args = [
-	  'public'          => true,
-	  'has_archive'     => true,
-	  'labels'          => [
+	  'public'             => true,
+	  'publicly_queryable' => false,
+	  'has_archive'        => true,
+	  'labels'             => [
 		  'name'          => 'Orders',
 		  'singular_name' => 'Order',
-		  'edit_item'     => ''
+		  'edit_item'     => 'Order Page'
 	  ],
-	  'supports'        => false,
-	  'capability_type' => 'post',
-	  'capabilities'    => [
+	  'supports'           => false,
+	  'capability_type'    => 'post',
+	  'capabilities'       => [
 		  'create_posts' => false
 	  ],
-	  'map_meta_cap'    => true,
-	  'rewrite'         => [ 'slug' => 'orders' ]
+	  'map_meta_cap'       => true,
+	  'rewrite'            => [ 'slug' => 'orders' ]
   ];
 
   register_post_type( 'pw_orders', $args );
@@ -123,7 +124,7 @@ function pwcore_store_order( WP_REST_Request $data ): WP_REST_Response {
   unset( $params['_wp_http_referer'] );
 
   // Send email to admin
-  $admin_mail = get_bloginfo( 'admin_email' );
+  $admin_mail = pwcore_get_theme_options( ( new OrderOptions )->get_theme_option_name() );
   $admin_name = get_bloginfo( 'name' );
 
   $headers   = [];
