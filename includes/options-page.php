@@ -18,10 +18,13 @@ function load_carbon_fields(): void {
 function create_options_page(): void {
 
   include_once PW_PLUGIN_PATH . '/includes/orders/order-options.php';
+  include_once PW_PLUGIN_PATH . '/includes/emails/email-options.php';
 
   $orderOptions = new OrderOptions;
+  $emailOptions = new EmailOptions;
 
   Container::make( 'theme_options', __( 'PW Core', 'pwcore' ) )
 		   ->set_icon( 'dashicons-screenoptions' )
-		   ->add_tab( 'Orders', array_merge( $orderOptions->get_options() ) );
+		   ->add_tab( 'Orders', array_merge( $orderOptions->get_options() ) )
+		   ->add_tab( 'Emails', array_merge( $emailOptions->get_options() ) );
 }
