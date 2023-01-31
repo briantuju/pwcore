@@ -73,9 +73,29 @@ function pwcore_show_order(): void {
   unset( $post_metas['_edit_last'] );
   unset( $post_metas['_edit_lock'] );
 
+  echo "<div style='display: flex; flex-direction: column; gap: 12px'>";
   foreach ( $post_metas as $key => $value ) {
-	echo "<strong>" . ucfirst( $key ) . "</strong>" . " => $value[0] <br/> <br/>";
+	switch ( $key ) {
+	  case 'topic':
+		break;
+	  case 'description':
+		echo "<div><h4 style='margin-bottom: 0.25rem'>Order Description</h4>"
+			 . "<div style='padding: 1rem; background-color:#fff; border: 1px solid #cecece'>"
+			 . "$value[0]</div></div>";
+		break;
+	  case 'attachment':
+		$url = get_post_meta( get_the_ID(), 'attachment', true )['url'];
+		echo "<h3 style='margin-bottom: 0'>Attachment</h3>"
+			 . "<a href=\"$url\" rel='noreferrer' target='_blank' style='max-width: max-content'>"
+			 . "Download</a>";
+		break;
+	  default:
+		echo "<h3 style='margin-bottom: 0'>" . ucfirst( $key ) . "</h3>"
+			 . "$value[0] <br/> <br/>";
+		break;
+	}
   }
+  echo "</div>";
 }
 
 function pwcore_create_orders_page(): void {
@@ -101,7 +121,7 @@ function pwcore_create_orders_page(): void {
 }
 
 function pwcore_create_rest_endpoints(): void {
-  register_rest_route( 'v1/orders', 'store', [
+  register_rest_route( 'pwcore/v1', 'orders', [
 	  'methods'  => 'POST',
 	  'callback' => 'pwcore_store_order'
   ] );
@@ -110,10 +130,23 @@ function pwcore_create_rest_endpoints(): void {
 function pwcore_store_order( WP_REST_Request $data ): WP_REST_Response {
   $params = $data->get_params();
 
-  // TODO:
-  // if (!wp_verify_nonce($params, 'wp_rest')) {
-  //   return new WP_REST_Response(null, 422);
-  // }
+  if ( ! function_exists( 'wp_handle_upload' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+  }
+
+  $upload = wp_handle_upload( $_FILES['attachment'], [
+	  'test_form' => false
+  ] );
+
+  if ( isset( $upload['error'] ) ) {
+	return new WP_REST_Response( $upload['error'], 400 );
+  } else {
+	$params['attachment'] = [
+		'url'  => $upload['url'],
+		'file' => $upload['file'],
+		'type' => $upload['type'],
+	];
+  }
 
   // Validate data
   $params['topic']       = ucfirst( sanitize_text_field( $params['topic'] ) );
@@ -122,6 +155,7 @@ function pwcore_store_order( WP_REST_Request $data ): WP_REST_Response {
   $params['service_id']  = sanitize_text_field( $params['service_id'] );
   unset( $params['_wpnonce'] );
   unset( $params['_wp_http_referer'] );
+  unset( $params['security'] );
 
   // Save order
   pwcore_save_order( $params );
@@ -161,9 +195,12 @@ function pwcore_send_new_order_email(): void {
 
 function pwcore_save_order( array $data ): void {
   $order_data = [
-	  'post_title'  => $data['topic'],
-	  'post_type'   => 'pw_orders',
-	  'post_status' => 'publish'
+	  'post_title'     => $data['topic'],
+	  'post_type'      => 'pw_orders',
+	  'post_status'    => 'publish',
+	  'post_author'    => wp_get_current_user()?->user_login,
+	  'post_content'   => $data['description'],
+	  'comment_status' => 'closed'
   ];
 
   $post_id = wp_insert_post( $order_data );
