@@ -1,3 +1,3 @@
 <?php
 
-die('NOPE. You cannot be here');
+die( 'NOPE. You cannot be here' );

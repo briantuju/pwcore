@@ -3,7 +3,7 @@
 <div id="form-errors" style="padding: 1rem; background-color: red; color: wheat; display: none;"></div>
 
 <form method="post" id="new-order-form" class="pw_new_order_form">
-  <?php wp_nonce_field('wp_rest') ?>
+  <?php wp_nonce_field( 'wp_rest' ) ?>
 
   <div class="pw_form_item">
     <label class="pw_form_label" for="topic">Topic</label>
@@ -12,7 +12,8 @@
 
   <div class="pw_form_item">
     <label class="pw_form_label" for="description">Description</label>
-    <textarea name="description" id="description" cols="30" rows="10" placeholder="Tell us about your order" required></textarea>
+    <textarea name="description" id="description" cols="30" rows="10" placeholder="Tell us about your order"
+              required></textarea>
   </div>
 
   <div class="pw_form_item">
@@ -34,25 +35,25 @@
   window.addEventListener("DOMContentLoaded", function() {
     jQuery(document).ready(function($) {
 
-      $('#new-order-form').submit(function(event) {
+      $("#new-order-form").submit(function(event) {
         event.preventDefault();
 
         let form = $(this);
 
         $.ajax({
           type: "POST",
-          url: '<?php echo get_rest_url(null, 'v1/orders/store') ?>',
+          url: '<?php echo get_rest_url( null, 'v1/orders/store' ) ?>',
           data: form.serialize(),
           success: function(data) {
             console.log(data);
-            $("#form-success").html(data || "Success").fadeIn()
+            $("#form-success").html(data || "Success").fadeIn();
           },
           error: function(error) {
-            $("#form-errors").html(error.responseJSON.message || "Failed").fadeIn()
-          },
-        })
-      })
+            $("#form-errors").html(error.responseJSON.message || "Failed").fadeIn();
+          }
+        });
+      });
 
-    })
-  })
+    });
+  });
 </script>

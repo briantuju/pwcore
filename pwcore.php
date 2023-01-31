@@ -10,41 +10,38 @@ Text Domain: pwcore
 */
 
 // Plugin must be accessed via WordPress itself
-if (!defined('ABSPATH')) {
-  die('NOPE! You cannot be here.');
+if ( ! defined( 'ABSPATH' ) ) {
+  die( 'NOPE! You cannot be here.' );
 }
 
-error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_USER_DEPRECATED & ~E_NOTICE);
+error_reporting( E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_USER_DEPRECATED & ~E_NOTICE );
 
-if (!class_exists('PWCore')) {
+if ( ! class_exists( 'PWCore' ) ) {
 
   /**
    * This is the core class that will be used with the plugin.
    */
-  class PWCore
-  {
+  class PWCore {
 
-    public function __construct()
-    {
-      /**
-       * PWCore plugin path
-       */
-      define('PW_PLUGIN_PATH', plugin_dir_path(__FILE__));
+	public function __construct() {
+	  /**
+	   * PWCore plugin path
+	   */
+	  define( 'PW_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
-      /**
-       * PWCore plugin url
-       */
-      define('PW_PLUGIN_URL', plugin_dir_url(__FILE__));
+	  /**
+	   * PWCore plugin url
+	   */
+	  define( 'PW_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-      require_once(PW_PLUGIN_PATH . '/vendor/autoload.php');
-    }
+	  require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
+	}
 
-    public function initialize()
-    {
-      include_once PW_PLUGIN_PATH . '/includes/utilities.php';
-      include_once PW_PLUGIN_PATH . '/includes/options-page.php';
-      include_once PW_PLUGIN_PATH . '/includes/orders/create-order.php';
-    }
+	public function initialize(): void {
+	  include_once PW_PLUGIN_PATH . '/includes/utilities.php';
+	  include_once PW_PLUGIN_PATH . '/includes/options-page.php';
+	  include_once PW_PLUGIN_PATH . '/includes/orders/create-order.php';
+	}
   }
 
   $pwcore_plugin = new PWCore;
