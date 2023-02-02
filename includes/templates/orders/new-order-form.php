@@ -1,41 +1,50 @@
-<div id="form-success" style="padding: 1rem; background-color: green; color: white; display: none;"></div>
+<?php include_once PW_PLUGIN_PATH . '/includes/templates/orders/packages-select.php'; ?>
 
-<div id="form-errors" style="padding: 1rem; background-color: red; color: wheat; display: none;"></div>
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-2 gap-4">
+    <div class="col">
+      <form method="post" id="new-order-form" class="p-4 bg-white rounded-4 border max-w-lg mx-auto"
+            enctype="multipart/form-data">
+        <input
+          type="hidden" name="security" value="<?php echo wp_create_nonce( 'new-order' ) ?>">
 
-<form method="post" id="new-order-form" class="pw_new_order_form" enctype="multipart/form-data">
-  <input
-    type="hidden" name="security" value="<?php echo wp_create_nonce( 'new-order' ) ?>">
+        <div class="mb-3">
+          <label class="form-label" for="topic">Topic</label>
+          <input type="text" id="topic" class="form-control" name="topic" placeholder="Order Topic" required />
+        </div>
 
-  <div class="pw_form_item">
-    <label class="pw_form_label" for="topic">Topic</label>
-    <input type="text" id="topic" name="topic" placeholder="Order Topic" required />
+        <div class="mb-3">
+          <label class="form-label" for="description">Description</label>
+          <textarea name="description" class="form-control" id="description" cols="30" rows="10"
+                    placeholder="Tell us about your order"
+                    required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="deadline">Deadline</label>
+          <input type="date" id="deadline" class="form-control" name="deadline" required />
+        </div>
+
+        <div class="mb-3">
+
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="attachment">Attachment</label>
+          <input type="file" id="attachment" class="form-control" name="attachment" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Continue
+        </button>
+      </form>
+    </div>
+
+    <div class="col">
+      <p>Show service selector here</p>
+    </div>
   </div>
-
-  <div class="pw_form_item">
-    <label class="pw_form_label" for="description">Description</label>
-    <textarea name="description" id="description" cols="30" rows="10" placeholder="Tell us about your order"
-              required></textarea>
-  </div>
-
-  <div class="pw_form_item">
-    <label class="pw_form_label" for="deadline">Deadline</label>
-    <input type="date" id="deadline" name="deadline" required />
-  </div>
-
-  <div class="pw_form_item">
-    <label class="pw_form_label" for="service_id">Service</label>
-    <input type="number" id="service_id" name="service_id" required />
-  </div>
-
-  <div class="pw_form_item">
-    <label class="pw_form_label" for="attachment">Attachment</label>
-    <input type="file" id="attachment" name="attachment" required />
-  </div>
-
-  <button type="submit">
-    Continue
-  </button>
-</form>
+</div>
 
 <script>
   window.addEventListener("DOMContentLoaded", function() {
@@ -44,7 +53,14 @@
       $("#new-order-form").submit(function(event) {
         event.preventDefault();
 
+        // Check to confirm a package was selected
+        const pkg = document.querySelector(".package_container_active");
+        if (!pkg) {
+          return alert("Please select a package");
+        }
+
         let fd = new FormData(this);
+        fd.append("package_id", pkg.dataset["package_id"]);
 
         $.ajax({
           type: "POST",
@@ -53,11 +69,13 @@
           contentType: false,
           processData: false,
           success: function(data) {
-            console.log(data);
-            $("#form-success").html(data || "Success").fadeIn();
+            alert("Order Created");
+            window.location.reload();
+            // $("#form-success").html(data || "Success").show().fadeIn();
           },
           error: function(error) {
-            $("#form-errors").html(error?.responseJSON?.message || "Failed").fadeIn();
+            alert(error?.responseJSON?.message || "Failed");
+            // $("#form-errors").html(error?.responseJSON?.message || "Failed").fadeIn();
           }
         });
       });

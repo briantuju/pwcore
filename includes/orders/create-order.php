@@ -8,7 +8,7 @@ add_action( 'rest_api_init', 'pwcore_create_rest_endpoints' );
 
 add_action( 'init', 'pwcore_create_orders_page' );
 
-add_action( 'add_meta_boxes', 'pwcore_create_meta_box' );
+add_action( 'add_meta_boxes', 'pwcore_create_order_meta_box' );
 
 add_filter( 'manage_pw_orders_posts_columns', 'pwcore_custom_orders_columns' );
 
@@ -24,9 +24,36 @@ function pwcore_enqueue_assets(): void {
 	  PW_PLUGIN_URL . '/assets/css/style.css',
 	  false
   );
+
+  wp_enqueue_style(
+	  'pwcore_style',
+	  PW_PLUGIN_URL . 'assets/css/utilities.css',
+	  false
+  );
+
+  wp_enqueue_style(
+	  'pwcore_bootstrap',
+	  PW_PLUGIN_URL . 'assets/css/bootstrap.min.css',
+	  false
+  );
+
+  wp_enqueue_script(
+	  'bootstrap_js',
+	  PW_PLUGIN_URL . 'assets/js/bootstrap.bundle.min.js',
+	  [],
+	  '5.3.0',
+	  true
+  );
+
+  wp_enqueue_script(
+	  'pwcore_client',
+	  PW_PLUGIN_URL . '/assets/js/client.js',
+	  [ 'jquery' ],
+	  '1.0.0'
+  );
 }
 
-function pwcore_create_meta_box(): void {
+function pwcore_create_order_meta_box(): void {
   add_meta_box(
 	  'pw_orders_meta_box',
 	  'Order Details',
@@ -122,8 +149,11 @@ function pwcore_create_orders_page(): void {
 
 function pwcore_create_rest_endpoints(): void {
   register_rest_route( 'pwcore/v1', 'orders', [
-	  'methods'  => 'POST',
-	  'callback' => 'pwcore_store_order'
+	  'methods'             => 'POST',
+	  'callback'            => 'pwcore_store_order',
+	  'permission_callback' => function () {
+		return '';
+	  }
   ] );
 }
 
@@ -153,9 +183,11 @@ function pwcore_store_order( WP_REST_Request $data ): WP_REST_Response {
   $params['description'] = sanitize_textarea_field( $params['description'] );
   $params['deadline']    = sanitize_text_field( $params['deadline'] );
   $params['service_id']  = sanitize_text_field( $params['service_id'] );
+  $params['package_id']  = sanitize_text_field( $params['package_id'] );
   unset( $params['_wpnonce'] );
   unset( $params['_wp_http_referer'] );
   unset( $params['security'] );
+  unset( $params['rest_route'] );
 
   // Save order
   pwcore_save_order( $params );
