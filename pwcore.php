@@ -41,6 +41,7 @@ if ( ! class_exists( 'PWCore' ) ) {
 	  include_once PW_PLUGIN_PATH . '/includes/utilities.php';
 	  include_once PW_PLUGIN_PATH . '/includes/options-page.php';
 	  include_once PW_PLUGIN_PATH . '/includes/orders/create-order.php';
+	  include_once PW_PLUGIN_PATH . '/includes/orders/order-packages.php';
 	}
   }
 
