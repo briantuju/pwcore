@@ -1,0 +1,26 @@
+{
+  "name": "pwcore",
+  "version": "0.1.0",
+  "description": "Publish Wikipedia Pages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/briantuju/pwcore.git"
+  },
+  "keywords": [
+    "Wikipedia",
+    "wikipedia"
+  ],
+  "author": "Brian Tuju <briantuju@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/briantuju/pwcore/issues"
+  },
+  "homepage": "https://github.com/briantuju/pwcore#readme",
+  "dependencies": {
+    "@paypal/paypal-js": "^5.1.4"
+  }
+}

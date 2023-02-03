@@ -2,6 +2,8 @@
 
 add_shortcode( 'new_order_form', 'pwcore_create_order_form' );
 
+add_shortcode( 'order_payment', 'pwcore_order_payment' );
+
 add_action( 'init', 'pwcore_create_orders_page' );
 
 add_action( 'add_meta_boxes', 'pwcore_create_order_meta_box' );
@@ -14,6 +16,14 @@ function pwcore_create_order_form(): bool|string {
   ob_start();
 
   include PW_PLUGIN_PATH . '/views/orders/new-order-form.php';
+
+  return ob_get_clean();
+}
+
+function pwcore_order_payment(): bool|string {
+  ob_start();
+
+  include PW_PLUGIN_PATH . '/views/orders/order-payment.php';
 
   return ob_get_clean();
 }

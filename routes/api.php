@@ -20,12 +20,25 @@ function pwcore_create_rest_endpoints(): void {
 		return '';
 	  }
   ] );
+
+  register_rest_route( 'pwcore/v1', 'payments', [
+	  'methods'             => 'POST',
+	  'callback'            => 'pwcore_store_payment',
+	  'permission_callback' => function () {
+		return '';
+	  }
+  ] );
 }
 
-function pwcore_store_order( WP_REST_Request $request ) {
+function pwcore_store_order( WP_REST_Request $request ): WP_REST_Response {
   $data = ( new StoreOrderRequest )->validate( $request->get_params() );
 
   ( new OrderController )->store( $data );
 
   return new WP_REST_Response( 'Order created', 201 );
+}
+
+function pwcore_store_payment( WP_REST_Request $request ): WP_REST_Response {
+
+  return new WP_REST_Response( "Success" );
 }
