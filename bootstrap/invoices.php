@@ -95,7 +95,8 @@ function pwcore_custom_invoices_columns( array $columns ): array {
 	  'amount'         => __( 'Amount', 'pwcore' ),
 	  'invoice_status' => __( 'Invoice Status', 'pwcore' ),
 	  'user_id'        => __( 'Customer', 'pwcore' ),
-	  'order_id'       => __( 'Order', 'pwcore' )
+	  'order_id'       => __( 'Order', 'pwcore' ),
+	  'date'           => __( $columns['date'], 'pwcore' ),
   ];
 }
 
