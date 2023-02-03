@@ -18,6 +18,7 @@ function pwcore_create_packages(): void {
 		  'singular_name' => 'Package'
 	  ],
 	  'show_in_rest'       => true,
+	  'menu_icon'          => 'dashicons-forms',
 	  'supports'           => [ 'title', 'editor', 'custom-fields' ],
 	  'rewrite'            => [ 'slug' => 'packages' ]
   ];

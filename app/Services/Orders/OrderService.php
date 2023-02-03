@@ -49,4 +49,8 @@ class OrderService {
 
 	wp_mail( $admin_mail, $subject, $message, $headers );
   }
+
+  public function generate_order_invoice( int $order_id, float $amount, int $user_id ) {
+	// TODO:
+  }
 }

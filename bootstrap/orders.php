@@ -33,6 +33,7 @@ function pwcore_create_orders_page(): void {
 	  'capabilities'       => [
 		  'create_posts' => false
 	  ],
+	  'menu_icon'          => 'dashicons-portfolio',
 	  'map_meta_cap'       => true,
 	  'rewrite'            => [ 'slug' => 'orders' ]
   ];
