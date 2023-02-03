@@ -4,6 +4,10 @@ add_action( 'init', 'pwcore_create_packages' );
 
 add_action( 'add_meta_boxes', 'pwcore_create_package_meta_box' );
 
+add_filter( 'manage_pw_packages_posts_columns', 'pwcore_custom_packages_columns' );
+
+add_action( 'manage_pw_packages_posts_custom_column', 'pwcore_fill_packages_columns', 10, 2 );
+
 function pwcore_create_packages(): void {
   $args = [
 	  'public'             => true,
@@ -41,4 +45,32 @@ function pwcore_show_package(): void {
   echo "<h3 style='margin-bottom: 0'>" . "Price " . "</h3 > "
 	   . "<strong style='font-size: 2rem'>$ $price</strong>";
   echo " </div > ";
+}
+
+function pwcore_custom_packages_columns( array $columns ): array {
+  return [
+	  'cb'     => __( $columns['cb'], 'pwcore' ),
+	  'title'  => __( $columns['title'], 'pwcore' ),
+	  'price'  => __( 'Price', 'pwcore' ),
+	  'orders' => __( 'Total Orders', 'pwcore' ),
+	  'date'   => __( $columns['date'], 'pwcore' )
+  ];
+}
+
+function pwcore_fill_packages_columns( $column, $post_id ): void {
+  switch ( $column ) {
+	case 'title':
+	  $title = get_the_title();
+	  echo "<strong>$title</strong>";
+	  break;
+	case 'price':
+	  $price = get_post_meta( get_the_ID(), 'price', true );
+	  echo "<strong>$ $price</strong>";
+	  break;
+	case 'orders':
+	  echo "Coming soon";
+	  break;
+	default:
+	  break;
+  }
 }
