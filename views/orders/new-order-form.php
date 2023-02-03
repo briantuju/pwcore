@@ -1,6 +1,14 @@
-<?php include_once PW_PLUGIN_PATH . '/includes/templates/orders/packages-select.php'; ?>
+<?php include_once PW_PLUGIN_PATH . '/views/orders/packages-select.php'; ?>
 
-<div class="container">
+<style>
+    @media (min-width: 1280px) {
+        .wider {
+            min-width: 1024px;
+        }
+    }
+</style>
+
+<div class="wider container">
   <div class="row row-cols-1 row-cols-md-2 gap-4">
     <div class="col">
       <form method="post" id="new-order-form" class="p-4 bg-white rounded-4 border max-w-lg mx-auto"
@@ -26,10 +34,6 @@
         </div>
 
         <div class="mb-3">
-
-        </div>
-
-        <div class="mb-3">
           <label class="form-label" for="attachment">Attachment</label>
           <input type="file" id="attachment" class="form-control" name="attachment" required />
         </div>
@@ -38,10 +42,6 @@
           Continue
         </button>
       </form>
-    </div>
-
-    <div class="col">
-      <p>Show service selector here</p>
     </div>
   </div>
 </div>

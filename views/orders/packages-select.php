@@ -7,7 +7,7 @@ $packages = get_posts( [
 ] );
 ?>
 
-<div class="container my-4">
+<div class="wider container my-4">
   <div class="package_grid">
 	<?php foreach ( $packages as $package ) { ?>
       <div

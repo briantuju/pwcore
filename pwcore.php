@@ -35,13 +35,20 @@ if ( ! class_exists( 'PWCore' ) ) {
 	  define( 'PW_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 	  require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
+
+	  // Setup env variables using dotenv
+	  $dotenv = Dotenv\Dotenv::createImmutable( __DIR__ );
+	  $dotenv->load();
 	}
 
 	public function initialize(): void {
-	  include_once PW_PLUGIN_PATH . '/includes/utilities.php';
-	  include_once PW_PLUGIN_PATH . '/includes/options-page.php';
-	  include_once PW_PLUGIN_PATH . '/includes/orders/create-order.php';
-	  include_once PW_PLUGIN_PATH . '/includes/orders/order-packages.php';
+	  // Boostrap files first
+	  include_once PW_PLUGIN_PATH . '/bootstrap/app.php';
+	  include_once PW_PLUGIN_PATH . '/bootstrap/orders.php';
+	  include_once PW_PLUGIN_PATH . '/bootstrap/packages.php';
+
+	  include_once PW_PLUGIN_PATH . '/routes/api.php';
+	  include_once PW_PLUGIN_PATH . '/routes/web.php';
 	}
   }
 
