@@ -13,9 +13,6 @@
     <div class="col">
       <form method="post" id="new-order-form" class="p-4 bg-white rounded-4 border max-w-lg mx-auto"
             enctype="multipart/form-data">
-        <input
-          type="hidden" name="security" value="<?php echo wp_create_nonce( 'new-order' ) ?>">
-
         <div class="mb-3">
           <label class="form-label" for="topic">Topic</label>
           <input type="text" id="topic" class="form-control" name="topic" placeholder="Order Topic" required />
@@ -66,6 +63,9 @@
           type: "POST",
           url: '<?php echo get_rest_url( null, 'pwcore/v1/orders' ) ?>',
           data: fd,
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-WP-Nonce", window.WPNonce?.nonce);
+          },
           contentType: false,
           processData: false,
           success: function(data) {

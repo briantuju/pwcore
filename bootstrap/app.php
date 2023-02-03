@@ -44,8 +44,14 @@ function pwcore_enqueue_assets(): void {
 	  'pwcore_client',
 	  PW_PLUGIN_URL . 'assets/js/client.js',
 	  [ 'jquery' ],
-	  '1.0.0'
+	  '1.0.0',
+	  true
   );
+
+  // Pass nonce to JS.
+  wp_localize_script( 'pwcore_client', 'WPNonce', [
+	  'nonce' => wp_create_nonce( 'wp_rest' ),
+  ] );
 }
 
 /**
