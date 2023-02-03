@@ -47,6 +47,7 @@ if ( ! class_exists( 'PWCore' ) ) {
 	  include_once PW_PLUGIN_PATH . '/bootstrap/orders.php';
 	  include_once PW_PLUGIN_PATH . '/bootstrap/packages.php';
 	  include_once PW_PLUGIN_PATH . '/bootstrap/invoices.php';
+	  include_once PW_PLUGIN_PATH . '/bootstrap/transactions.php';
 
 	  include_once PW_PLUGIN_PATH . '/routes/api.php';
 	  include_once PW_PLUGIN_PATH . '/routes/web.php';
