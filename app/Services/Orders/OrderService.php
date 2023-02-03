@@ -7,8 +7,19 @@ require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
 use DateTime;
 use PWCore\Enums\OrderStatus;
 use PWCore\Services\EmailOptions;
+use WP_Post;
+use WP_User;
 
 class OrderService {
+
+  protected EmailOptions $email_options;
+
+  protected OrderOptions $order_options;
+
+  public function __construct() {
+	$this->email_options = new EmailOptions;
+	$this->order_options = new OrderOptions;
+  }
 
   /**
    * @param int $order_id
@@ -22,13 +33,15 @@ class OrderService {
   }
 
   /**
+   * @param WP_User $user
+   *
    * @return void
    */
-  public function send_new_order_email(): void {
+  public function send_new_order_email( WP_User $user ): void {
 	// Send email to admin
 	$admin_name = get_bloginfo( 'name' );
-	$admin_mail = pwcore_get_theme_options( ( new OrderOptions )->get_option_name() );
-	$email      = pwcore_get_theme_options( ( new EmailOptions )->get_option_new_order() );
+	$admin_mail = pwcore_get_theme_options( $this->order_options->get_order_email() );
+	$email      = pwcore_get_theme_options( $this->email_options->get_option_new_order() );
 
 	$headers   = [];
 	$headers[] = "From: $admin_name <$admin_mail>";
@@ -48,7 +61,7 @@ class OrderService {
 	$subject = "New Order";
 	$message = $email;
 
-	wp_mail( $admin_mail, $subject, $message, $headers );
+	wp_mail($user->user_email, $subject, $message, $headers );
   }
 
   public function generate_order_invoice( int $order_id, float $amount, int $user_id ) {
@@ -76,16 +89,17 @@ class OrderService {
 
   /**
    * @param array $data
+   * @param WP_User $user
    *
-   * @return void
+   * @return array|WP_Post|null
    */
-  public function create_order( array $data ): void {
+  public function create_order( array $data, WP_User $user ): array|WP_Post|null {
 	// Prepare order for saving
 	$order_data = [
 		'post_title'     => $data['topic'],
 		'post_type'      => 'pw_orders',
 		'post_status'    => 'publish',
-		'post_author'    => wp_get_current_user()?->user_login,
+		'post_author'    => $user->user_login,
 		'post_content'   => $data['description'],
 		'comment_status' => 'closed'
 	];
@@ -103,5 +117,7 @@ class OrderService {
 	foreach ( $data as $key => $value ) {
 	  add_post_meta( $post_id, $key, $value );
 	}
+
+	return get_post( $post_id );
   }
 }

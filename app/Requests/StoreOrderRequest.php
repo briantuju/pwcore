@@ -19,7 +19,6 @@ class StoreOrderRequest {
 
 	unset( $data['_wpnonce'] );
 	unset( $data['_wp_http_referer'] );
-	unset( $data['security'] );
 	unset( $data['rest_route'] );
 
 	return $data;

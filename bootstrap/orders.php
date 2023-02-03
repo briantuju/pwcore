@@ -54,7 +54,7 @@ function pwcore_custom_orders_columns( array $columns ): array {
   return [
 	  'cb'           => __( $columns['cb'], 'pwcore' ),
 	  'order_number' => __( 'Order Number', 'pwcore' ),
-	  'topic'        => __( 'Order Topic', 'pwcore' ),
+	  'user_id'      => __( 'Customer', 'pwcore' ),
 	  'order_status' => __( 'Order Status', 'pwcore' ),
 	  'package_id'   => __( 'Package', 'pwcore' ),
 	  'deadline'     => __( 'Order Deadline', 'pwcore' ),
@@ -67,6 +67,10 @@ function pwcore_fill_orders_columns( $column, $post_id ): void {
 	case 'order_number':
 	  $order_number = get_post_meta( $post_id, 'order_number', true );
 	  echo "<strong>$order_number</strong>";
+	  break;
+	case 'user_id':
+	  $user_name = get_the_author_meta( 'display_name' );
+	  echo "<span>" . $user_name . "</span>";
 	  break;
 	case 'topic':
 	  echo get_post_meta( $post_id, 'topic', true );

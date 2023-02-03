@@ -70,12 +70,14 @@ function pwcore_show_invoice(): void {
 			 . ucfirst( $value[0] ) . " <br/>";
 		break;
 	  case 'user_id':
+		$user = get_user_by( 'id', $value[0] );
 		echo "<h3 style='margin-bottom: 0'>" . "Customer" . "</h3>"
-			 . ucfirst( $value[0] ) . " <br/>";
+			 . ucfirst( $user->display_name ) . " <br/>";
 		break;
 	  case 'order_id':
+		$order = get_post_meta( $value[0], 'order_number', true );
 		echo "<h3 style='margin-bottom: 0'>" . "Order" . "</h3>"
-			 . ucfirst( $value[0] ) . " <br/>";
+			 . ucfirst( $order ) . " <br/>";
 		break;
 	  default:
 		echo "<h3 style='margin-bottom: 0'>" . ucfirst( $key ) . "</h3>"
@@ -113,11 +115,13 @@ function pwcore_fill_invoices_columns( $column, $post_id ): void {
 	  break;
 	case 'user_id':
 	  $user_id = get_post_meta( get_the_ID(), 'user_id', true );
-	  echo "<span>$user_id</span>";
+	  $user    = get_user_by( 'id', $user_id );
+	  echo "<strong>" . $user->display_name ?? $user->user_login . "</strong>";
 	  break;
 	case 'order_id':
-	  $order_id = get_post_meta( get_the_ID(), 'order_id', true );
-	  echo "<span>$order_id</span>";
+	  $order_id     = get_post_meta( get_the_ID(), 'order_id', true );
+	  $order_number = get_post_meta( $order_id, 'order_number', true );
+	  echo "<strong>$order_number</strong>";
 	  break;
 	default:
 	  break;
