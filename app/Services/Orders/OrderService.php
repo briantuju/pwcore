@@ -5,6 +5,7 @@ namespace PWCore\Services\Orders;
 require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
 
 use DateTime;
+use PWCore\Enums\OrderStatus;
 use PWCore\Services\EmailOptions;
 
 class OrderService {
@@ -52,5 +53,55 @@ class OrderService {
 
   public function generate_order_invoice( int $order_id, float $amount, int $user_id ) {
 	// TODO:
+  }
+
+  /**
+   * @return array|mixed
+   */
+  public function upload_single_attachment(): mixed {
+	if ( ! function_exists( 'wp_handle_upload' ) ) {
+	  require_once( ABSPATH . 'wp-admin/includes/file.php' );
+	}
+
+	$upload = wp_handle_upload( $_FILES['attachment'], [
+		'test_form' => false
+	] );
+
+	return $upload['error'] ?? [
+		'url'  => $upload['url'],
+		'file' => $upload['file'],
+		'type' => $upload['type'],
+	];
+  }
+
+  /**
+   * @param array $data
+   *
+   * @return void
+   */
+  public function create_order( array $data ): void {
+	// Prepare order for saving
+	$order_data = [
+		'post_title'     => $data['topic'],
+		'post_type'      => 'pw_orders',
+		'post_status'    => 'publish',
+		'post_author'    => wp_get_current_user()?->user_login,
+		'post_content'   => $data['description'],
+		'comment_status' => 'closed'
+	];
+
+	$post_id = wp_insert_post( $order_data );
+
+	// Add order number meta field
+	$order_number = $this->generate_order_number( $post_id );
+	add_post_meta( $post_id, 'order_number', $order_number );
+
+	// Create order status meta field
+	add_post_meta( $post_id, 'order_status', OrderStatus::PENDING->value );
+
+	// Save other meta fields
+	foreach ( $data as $key => $value ) {
+	  add_post_meta( $post_id, $key, $value );
+	}
   }
 }
