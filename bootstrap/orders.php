@@ -4,6 +4,8 @@ add_shortcode( 'new_order_form', 'pwcore_create_order_form' );
 
 add_shortcode( 'order_payment', 'pwcore_order_payment' );
 
+add_shortcode( 'my_orders', 'pwcore_my_orders' );
+
 add_action( 'init', 'pwcore_create_orders_page' );
 
 add_action( 'add_meta_boxes', 'pwcore_create_order_meta_box' );
@@ -24,6 +26,14 @@ function pwcore_order_payment(): bool|string {
   ob_start();
 
   include PW_PLUGIN_PATH . '/views/orders/order-payment.php';
+
+  return ob_get_clean();
+}
+
+function pwcore_my_orders(): bool|string {
+  ob_start();
+
+  include PW_PLUGIN_PATH . '/views/orders/my-orders.php';
 
   return ob_get_clean();
 }
@@ -79,8 +89,9 @@ function pwcore_fill_orders_columns( $column, $post_id ): void {
 	  echo "<strong>$order_number</strong>";
 	  break;
 	case 'user_id':
-	  $user_name = get_the_author_meta( 'display_name' );
-	  echo "<span>" . $user_name . "</span>";
+	  $user_id = get_post_meta( get_the_ID(), 'user_id', true );
+	  $user    = get_user_by( 'id', $user_id );
+	  echo "<span>" . $user->display_name ?? $user->user_login . "</span>";
 	  break;
 	case 'topic':
 	  echo get_post_meta( $post_id, 'topic', true );
@@ -149,8 +160,8 @@ function pwcore_show_order(): void {
 			 . ucfirst( $value[0] ) . " <br/>";
 		break;
 	  default:
-		echo "<h3 style='margin-bottom: 0'>" . ucfirst( $key ) . "</h3>"
-			 . "$value[0] <br/>";
+//		echo "<h3 style='margin-bottom: 0'>" . ucfirst( $key ) . "</h3>"
+//			 . "$value[0] <br/>";
 		break;
 	}
   }

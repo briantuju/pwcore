@@ -64,10 +64,6 @@ class OrderService {
 	wp_mail($user->user_email, $subject, $message, $headers );
   }
 
-  public function generate_order_invoice( int $order_id, float $amount, int $user_id ) {
-	// TODO:
-  }
-
   /**
    * @return array|mixed
    */

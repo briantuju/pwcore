@@ -45,14 +45,14 @@ class OrderController {
 	$data['attachment'] = $attachment;
 
 	// Create the order
-	$user  = get_user_by( 'id', get_current_user_id() );
-	$order = $this->order_service->create_order( $data, $user );
+	$user            = get_user_by( 'id', get_current_user_id() );
+	$data['user_id'] = $user->ID;
+	$order           = $this->order_service->create_order( $data, $user );
 
 	// Create an invoice for this order
 	$amount       = get_post_meta( $data['package_id'], 'price', true );
 	$order_number = get_post_meta( $order->ID, 'order_number', true );
-
-	$invoice = $this->invoice_service->create_invoice( [
+	$this->invoice_service->create_invoice( [
 		'title'          => "Invoice for order $order_number",
 		'amount'         => $amount,
 		'invoice_status' => InvoiceStatus::PENDING->value,
