@@ -1,5 +1,7 @@
 <?php
-$user_id = wp_get_current_user()?->ID;
+
+$order_details_url = get_site_url() . '/order-details?order_id=';
+$user_id           = wp_get_current_user()?->ID;
 
 $orders = get_posts( [
 	'post_type'   => 'pw_orders',
@@ -27,7 +29,11 @@ $orders = get_posts( [
     <tbody>
 	<?php foreach ( $orders as $order ) { ?>
       <tr>
-        <th scope="row"><?php echo $order->order_number; ?></th>
+        <th scope="row">
+          <a href="<?php echo $order_details_url . $order->ID; ?>">
+			<?php echo $order->order_number; ?>
+          </a>
+        </th>
         <td><?php echo $order->post_title; ?></td>
         <td><?php echo ucfirst( $order->order_status ); ?></td>
         <td><?php echo get_post( $order->package_id )?->post_title; ?></td>

@@ -4,6 +4,8 @@ add_shortcode( 'new_order_form', 'pwcore_create_order_form' );
 
 add_shortcode( 'order_payment', 'pwcore_order_payment' );
 
+add_shortcode( 'order_payment', 'pwcore_order_details' );
+
 add_shortcode( 'my_orders', 'pwcore_my_orders' );
 
 add_action( 'init', 'pwcore_create_orders_page' );
@@ -34,6 +36,14 @@ function pwcore_my_orders(): bool|string {
   ob_start();
 
   include PW_PLUGIN_PATH . '/views/orders/my-orders.php';
+
+  return ob_get_clean();
+}
+
+function pwcore_order_details(): bool|string {
+  ob_start();
+
+  include PW_PLUGIN_PATH . '/views/orders/order-details.php';
 
   return ob_get_clean();
 }
