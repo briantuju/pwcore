@@ -2,6 +2,7 @@
 
 namespace PWCore\Services;
 
+use PWCore\Enums\InvoiceStatus;
 use WP_Post;
 
 require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
@@ -32,5 +33,15 @@ class InvoiceService {
 	}
 
 	return get_post( $post_id );
+  }
+
+  /**
+   * @param WP_Post $invoice
+   * @param InvoiceStatus $status
+   *
+   * @return bool|int
+   */
+  public function update_status( WP_Post $invoice, InvoiceStatus $status ): bool|int {
+	return update_post_meta( $invoice->ID, 'invoice_status', $status->value );
   }
 }

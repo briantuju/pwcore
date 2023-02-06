@@ -61,7 +61,7 @@ class OrderService {
 	$subject = "New Order";
 	$message = $email;
 
-	wp_mail($user->user_email, $subject, $message, $headers );
+	wp_mail( $user->user_email, $subject, $message, $headers );
   }
 
   /**
@@ -115,5 +115,15 @@ class OrderService {
 	}
 
 	return get_post( $post_id );
+  }
+
+  /**
+   * @param WP_Post $order
+   * @param OrderStatus $status
+   *
+   * @return bool|int
+   */
+  public function update_status( WP_Post $order, OrderStatus $status ): bool|int {
+	return update_post_meta( $order->ID, 'order_status', $status->value );
   }
 }

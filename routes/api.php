@@ -3,7 +3,9 @@
 require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
 
 use PWCore\Controllers\OrderController;
+use PWCore\Controllers\TransactionController;
 use PWCore\Requests\StoreOrderRequest;
+use PWCore\Requests\StoreTransactionRequest;
 
 /*
  * In this file, we can register all the routes that will
@@ -31,7 +33,7 @@ function pwcore_create_rest_endpoints(): void {
 }
 
 function pwcore_store_order( WP_REST_Request $request ): WP_REST_Response {
-  $data = ( new StoreOrderRequest )->validate( $request->get_params() );
+  $data = ( new StoreOrderRequest )->validate( $request );
 
   ( new OrderController )->store( $data );
 
@@ -39,6 +41,9 @@ function pwcore_store_order( WP_REST_Request $request ): WP_REST_Response {
 }
 
 function pwcore_store_payment( WP_REST_Request $request ): WP_REST_Response {
+  $data = ( new StoreTransactionRequest )->validate( $request );
 
-  return new WP_REST_Response( "Success" );
+  ( new TransactionController )->store( $data );
+
+  return new WP_REST_Response( 'Order paid successfully', 201 );
 }

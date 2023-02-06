@@ -4,7 +4,7 @@ add_shortcode( 'new_order_form', 'pwcore_create_order_form' );
 
 add_shortcode( 'order_payment', 'pwcore_order_payment' );
 
-add_shortcode( 'order_payment', 'pwcore_order_details' );
+add_shortcode( 'order_details', 'pwcore_order_details' );
 
 add_shortcode( 'my_orders', 'pwcore_my_orders' );
 
