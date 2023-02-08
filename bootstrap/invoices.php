@@ -2,7 +2,7 @@
 
 add_action( 'init', 'pwcore_create_invoices' );
 
-add_action( 'add_meta_boxes', 'pwcore_invoice_meta_box' );
+add_action( 'add_meta_boxes', 'pwcore_invoice_meta_box', 10, 2 );
 
 add_filter( 'manage_pw_invoices_posts_columns', 'pwcore_custom_invoices_columns' );
 
@@ -19,10 +19,6 @@ function pwcore_create_invoices(): void {
 		  'edit_item'     => 'Invoice Page'
 	  ],
 	  'supports'           => false,
-	  'capability_type'    => 'post',
-	  'capabilities'       => [
-		  'create_posts' => false
-	  ],
 	  'menu_icon'          => 'dashicons-text-page',
 	  'map_meta_cap'       => true,
 	  'rewrite'            => [ 'slug' => 'invoices' ]
@@ -31,13 +27,28 @@ function pwcore_create_invoices(): void {
   register_post_type( 'pw_invoices', $args );
 }
 
-function pwcore_invoice_meta_box(): void {
-  add_meta_box(
-	  'pw_invoice_meta_box',
-	  'Invoice Details',
-	  'pwcore_show_invoice',
-	  'pw_invoices'
-  );
+function pwcore_invoice_meta_box( $post_type, $post ): void {
+  $action = get_current_screen()?->action;
+
+  if ( $action === 'add' ) {
+	add_meta_box(
+		'pw_create_invoice_meta_box',
+		'Create Invoice',
+		'pwcore_create_invoice',
+		'pw_invoices'
+	);
+  } else {
+	add_meta_box(
+		'pw_invoice_details_meta_box',
+		'Invoice Details',
+		'pwcore_show_invoice',
+		'pw_invoices'
+	);
+  }
+}
+
+function pwcore_create_invoice(): void {
+  include PW_PLUGIN_PATH . '/views/invoices/create-invoice.php';
 }
 
 function pwcore_show_invoice(): void {

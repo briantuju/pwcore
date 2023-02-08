@@ -44,4 +44,22 @@ class InvoiceService {
   public function update_status( WP_Post $invoice, InvoiceStatus $status ): bool|int {
 	return update_post_meta( $invoice->ID, 'invoice_status', $status->value );
   }
+
+  /**
+   * @param int|string $order_id
+   *
+   * @return int[]|WP_Post[]
+   */
+  public function get_order_invoices( int|string $order_id ): array {
+	return get_posts( [
+		'post_type'   => 'pw_invoices',
+		'numberposts' => - 1,
+		'meta_query'  => [
+			[
+				'key'   => 'order_id',
+				'value' => $order_id,
+			]
+		]
+	] );
+  }
 }

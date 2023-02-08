@@ -126,4 +126,31 @@ class OrderService {
   public function update_status( WP_Post $order, OrderStatus $status ): bool|int {
 	return update_post_meta( $order->ID, 'order_status', $status->value );
   }
+
+  /**
+   * @param int|string $user_id
+   *
+   * @return array
+   */
+  public function get_orders_by_user_id( int|string $user_id ): array {
+	return get_posts( [
+		'post_type'   => 'pw_orders',
+		'numberposts' => - 1,
+		'meta_query'  => [
+			[
+				'key'   => 'user_id',
+				'value' => $user_id,
+			]
+		]
+	] );
+  }
+
+  /**
+   * @param int|string $order_id
+   *
+   * @return array|WP_Post|null
+   */
+  public function find_order_by_id( int|string $order_id ): array|WP_Post|null {
+	return get_post( $order_id );
+  }
 }

@@ -7,11 +7,26 @@ use Carbon_Fields\Container;
 use PWCore\Services\EmailOptions;
 use PWCore\Services\Orders\OrderOptions;
 
+add_action( 'admin_menu', 'pwcore_remove_publish_metabox' );
+
 add_action( 'wp_enqueue_scripts', 'pwcore_enqueue_assets' );
+
+add_action( 'admin_enqueue_scripts', 'pwcore_admin_styles' );
 
 add_action( 'after_setup_theme', 'load_carbon_fields' );
 
 add_action( 'carbon_fields_register_fields', 'create_options_page' );
+
+function pwcore_admin_styles(): void {
+  // Register the stylesheet and then enqueue it
+  wp_register_style(
+	  'pwcore_admin_bootstrap',
+	  PW_PLUGIN_URL . 'assets/css/bootstrap.min.css',
+	  false,
+	  '1.0.0'
+  );
+  wp_enqueue_style( 'pwcore_admin_bootstrap' );
+}
 
 function pwcore_enqueue_assets(): void {
   wp_enqueue_style(
@@ -69,4 +84,11 @@ function create_options_page(): void {
 		   ->set_icon( 'dashicons-screenoptions' )
 		   ->add_tab( 'Orders', array_merge( $orderOptions->get_options() ) )
 		   ->add_tab( 'Emails', array_merge( $emailOptions->get_options() ) );
+}
+
+function pwcore_remove_publish_metabox(): void {
+  remove_meta_box( 'submitdiv', 'pw_invoices', 'side' );
+  remove_meta_box( 'submitdiv', 'pw_orders', 'side' );
+  remove_meta_box( 'submitdiv', 'pw_packages', 'side' );
+  remove_meta_box( 'submitdiv', 'pw_transactions', 'side' );
 }

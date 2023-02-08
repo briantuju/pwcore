@@ -51,19 +51,16 @@ function pwcore_fill_transactions_columns( $column, $post_id ): void {
 	  $amount = get_post_meta( get_the_ID(), 'amount', true );
 	  echo "<strong>$ $amount</strong>";
 	  break;
-	case 'invoice_id':
-	  $status = ucfirst( get_post_meta( get_the_ID(), 'invoice_id', true ) );
-	  echo "<span>$status</span>";
-	  break;
 	case 'user_id':
 	  $user_id = get_post_meta( get_the_ID(), 'user_id', true );
 	  $user    = get_user_by( 'id', $user_id );
 	  echo "<strong>" . $user->display_name ?? $user->user_login . "</strong>";
 	  break;
+	case 'invoice_id':
 	case 'order_id':
 	  $order_id     = get_post_meta( get_the_ID(), 'order_id', true );
 	  $order_number = get_post_meta( $order_id, 'order_number', true );
-	  echo "<strong>$order_number</strong>";
+	  echo "<span>$order_number</span>";
 	  break;
 	default:
 	  break;

@@ -1,18 +1,11 @@
 <?php
 
+use PWCore\Services\Orders\OrderService;
+
 $order_details_url = get_site_url() . '/order-details?order_id=';
 $user_id           = wp_get_current_user()?->ID;
 
-$orders = get_posts( [
-	'post_type'   => 'pw_orders',
-	'numberposts' => - 1,
-	'meta_query'  => [
-		[
-			'key'   => 'user_id',
-			'value' => $user_id,
-		]
-	],
-] );
+$orders = ( new OrderService )->get_orders_by_user_id( $user_id );
 ?>
 
 <div class="">
