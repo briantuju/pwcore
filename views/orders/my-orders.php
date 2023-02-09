@@ -9,8 +9,9 @@ $orders = ( new OrderService )->get_orders_by_user_id( $user_id );
 ?>
 
 <div class="">
-  <table class="table">
-    <thead>
+  <table class="table table-bordered table-striped table-hover table-responsive">
+    <caption>My orders</caption>
+    <thead class="table-dark">
     <tr>
       <th scope="col">Order Number</th>
       <th scope="col">Topic</th>
@@ -19,7 +20,7 @@ $orders = ( new OrderService )->get_orders_by_user_id( $user_id );
     </tr>
     </thead>
 
-    <tbody>
+    <tbody class="table-group-divider">
 	<?php foreach ( $orders as $order ) { ?>
       <tr>
         <th scope="row">

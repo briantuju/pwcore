@@ -224,6 +224,11 @@ button:disabled, input:disabled, textarea:disabled {
     margin-right: .5rem;
 }
 
+/* offcanvas */
+.offcanvas-header {
+    margin-top: 4rem;
+}
+
 /* Media Query */
 @media (min-width: 640px) {
 }
