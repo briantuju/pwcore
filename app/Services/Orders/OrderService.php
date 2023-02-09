@@ -38,38 +38,6 @@ class OrderService {
   }
 
   /**
-   * @param WP_User $user
-   *
-   * @return void
-   */
-  public function send_new_order_email( WP_User $user ): void {
-	// Send email to admin
-	$admin_name = get_bloginfo( 'name' );
-	$admin_mail = pwcore_get_theme_options( $this->order_options->get_order_email() );
-	$email      = pwcore_get_theme_options( $this->email_options->get_option_new_order() );
-
-	$headers   = [];
-	$headers[] = "From: $admin_name<$admin_mail>";
-	$headers[] = "Reply-to: no-reply<$admin_mail>";
-	$headers[] = "Content-Type: text/html";
-
-	// If the email is set, we do a string replacement of all placeholders
-	if ( $email ) {
-	  // For now, we have 'name' only
-	  $email = str_replace(
-		  "[name]",
-		  wp_get_current_user()?->user_login,
-		  $email
-	  // apply_filters( 'the_content', carbon_get_the_post_meta( '' ) )
-	  );
-	}
-	$subject = "New Order";
-	$message = $email;
-
-	wp_mail( $user->user_email, $subject, $message, $headers );
-  }
-
-  /**
    * @return array|mixed|void
    */
   public function upload_single_attachment() {

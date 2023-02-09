@@ -4,6 +4,7 @@ require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
 
 use Carbon_Fields\Carbon_Fields;
 use Carbon_Fields\Container;
+use Carbon_Fields\Field;
 use PWCore\Services\EmailOptions;
 use PWCore\Services\Orders\OrderOptions;
 
@@ -82,6 +83,13 @@ function create_options_page(): void {
 
   Container::make( 'theme_options', __( 'PW Core', 'pwcore' ) )
 		   ->set_icon( 'dashicons-screenoptions' )
+		   ->add_tab( 'General', [
+			   Field::make( 'text', $emailOptions->get_option_default(),
+				   __( $emailOptions->get_label_default(), 'pwcore' )
+			   )
+					->set_default_value( get_bloginfo( 'admin_email' ) )
+					->set_help_text( 'Default website email' )
+		   ] )
 		   ->add_tab( 'Orders', array_merge( $orderOptions->get_options() ) )
 		   ->add_tab( 'Emails', array_merge( $emailOptions->get_options() ) );
 }

@@ -5,9 +5,11 @@ namespace PWCore\Controllers;
 require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
 
 use PWCore\Enums\InvoiceStatus;
+use PWCore\Services\EmailOptions;
 use PWCore\Services\InvoiceService;
+use PWCore\Services\Mail\EmailService;
+use PWCore\Services\Orders\OrderOptions;
 use PWCore\Services\Orders\OrderService;
-use WP_REST_Response;
 
 class OrderController {
 
@@ -17,13 +19,31 @@ class OrderController {
   protected OrderService $order_service;
 
   /**
+   * @var EmailOptions
+   */
+  protected EmailOptions $email_options;
+
+  /**
+   * @var EmailService
+   */
+  protected EmailService $email_service;
+
+  /**
    * @var InvoiceService
    */
   protected InvoiceService $invoice_service;
 
+  /**
+   * @var OrderOptions
+   */
+  protected OrderOptions $order_options;
+
   public function __construct() {
 	$this->order_service   = new OrderService;
 	$this->invoice_service = new InvoiceService;
+	$this->email_options   = new EmailOptions;
+	$this->email_service   = new EmailService;
+	$this->order_options   = new OrderOptions;
   }
 
   /**
@@ -58,6 +78,11 @@ class OrderController {
 	] );
 
 	// Send email
-	$this->order_service->send_new_order_email( $user );
+	$order_mail = pwcore_get_theme_options( $this->order_options->get_order_email() );
+	$email      = pwcore_get_theme_options( $this->email_options->get_option_new_order() );
+	$email      = str_replace( "[name]", $user?->user_login, $email );
+	$this->email_service->send_email(
+		$user, "New Order", $email, "Support<$order_mail>"
+	);
   }
 }

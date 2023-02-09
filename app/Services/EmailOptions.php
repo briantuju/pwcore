@@ -8,6 +8,8 @@ use Carbon_Fields\Field;
 
 class EmailOptions {
 
+  protected string $option_default = 'pw_email';
+  protected string $label_default = 'Site Email';
   protected string $option_new_order = 'pw_email_new_order';
   protected string $label_new_order = 'Order Created';
   protected string $option_order_pay_request = 'pw_email_order_pay_request';
@@ -111,5 +113,19 @@ class EmailOptions {
    */
   public function get_label_order_status_update(): string {
 	return $this->label_order_status_update;
+  }
+
+  /**
+   * @return string
+   */
+  public function get_option_default(): string {
+	return $this->option_default;
+  }
+
+  /**
+   * @return string
+   */
+  public function get_label_default(): string {
+	return $this->label_default;
   }
 }
