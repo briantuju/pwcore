@@ -20,7 +20,7 @@ $invoice = get_post( $invoice_id );
 $amount  = get_post_meta( $invoice->ID, 'amount', true );
 ?>
 
-<div class="container">
+<div class="container bg-light p-4 rounded">
   <div class="row gap-4 mb-4">
     <div class="col-12">
       <h1 class="fs-2">

@@ -3,6 +3,7 @@
 require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
 
 use PWCore\Enums\InvoiceStatus;
+use PWCore\Services\Orders\OrderService;
 
 $site_url = get_site_url();
 $order_id = $_GET['order_id'];
@@ -17,43 +18,53 @@ if ( ! $order_id ) {
   return;
 }
 
-$order    = get_post( $order_id );
-$invoices = get_posts( [
-	'post_type'   => 'pw_invoices',
-	'numberposts' => 1,
-	'meta_query'  => [
-		[
-			'key'   => 'order_id',
-			'value' => $order_id,
-		]
-	],
-] );
+$order   = get_post( $order_id );
+$invoice = ( new OrderService )->get_pending_payment( $order_id );
 
-$invoice = $invoices[0];
+if ( $invoice ) {
+  $order_payment_url = $site_url . "/order-payment?invoice_id=$invoice->ID"
+					   . "&order_id=" . $order_id;
+}
 
-$order_payment_url = $site_url . "/order-payment?invoice_id=$invoice?->ID"
-					 . "&order_id=";
 ?>
 
-<div class="container">
+<div class="container bg-light">
   <div class="row gap-4">
     <div class="col-12">
-      <h1><?php echo $order->post_title; ?></h1>
+	  <?php if ( isset( $order_payment_url ) && $invoice?->invoice_status === InvoiceStatus::PENDING->value ) { ?>
+        <div class="d-flex gap-2 text-center flex-column p-4 shadow bg-danger-subtle rounded-3">
+          <h3 class="fs-5">You have a pending payment for this order</h3>
+          <span>Use the link below to make the payment</span>
+          <a href="<?php echo $order_payment_url; ?>">
+            Pay Now
+          </a>
+        </div>
+	  <?php } ?>
+    </div>
+
+    <div class="col-12">
+      <h1 class="fs-3">
+        <span><?php echo $order->order_number; ?></span>
+        <span class="mx-1">|</span>
+        <span><?php echo $order->post_title; ?></span>
+      </h1>
+      <hr>
     </div>
 
     <div class="col-12 d-flex flex-row gap-4">
-      <strong>Status</strong>
+      <strong>Order Status</strong>
       <span><?php echo ucfirst( $order->order_status ); ?></span>
-      <span><?php if ( $invoice?->invoice_status === InvoiceStatus::PENDING->value ) { ?>
-          <a href="<?php echo $order_payment_url . $order->ID; ?>">Pay now</a>
-		<?php } ?>
-      </span>
     </div>
 
     <div class="col-12 d-flex flex-row gap-4">
       <strong>Package</strong>
       <span><?php echo get_post( $order->package_id )?->post_title; ?></span>
       <strong>($ <?php echo get_post( $order->package_id )?->price; ?>)</strong>
+    </div>
+
+    <div class="col-12 d-flex flex-row gap-4">
+      <strong>Deadline</strong>
+      <span><?php echo $order->deadline ?></span>
     </div>
 
     <div class="col-12 d-flex flex-row gap-4">
@@ -64,8 +75,14 @@ $order_payment_url = $site_url . "/order-payment?invoice_id=$invoice?->ID"
 		$url        = $attachment['url'];
 		echo "<a href=\"$url\">Download</a>";
 		?>
-
       </span>
+    </div>
+
+    <div class="col-12 d-flex flex-column gap-2">
+      <strong>Your instructions</strong>
+      <textarea readonly class="form-control">
+        <?php echo $order->description ?>
+      </textarea>
     </div>
   </div>
 </div>

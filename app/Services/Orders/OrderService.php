@@ -5,8 +5,10 @@ namespace PWCore\Services\Orders;
 require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
 
 use DateTime;
+use PWCore\Enums\InvoiceStatus;
 use PWCore\Enums\OrderStatus;
 use PWCore\Services\EmailOptions;
+use PWCore\Services\InvoiceService;
 use WP_Post;
 use WP_User;
 
@@ -16,9 +18,12 @@ class OrderService {
 
   protected OrderOptions $order_options;
 
+  protected InvoiceService $invoice_service;
+
   public function __construct() {
-	$this->email_options = new EmailOptions;
-	$this->order_options = new OrderOptions;
+	$this->email_options   = new EmailOptions;
+	$this->order_options   = new OrderOptions;
+	$this->invoice_service = new InvoiceService;
   }
 
   /**
@@ -152,5 +157,29 @@ class OrderService {
    */
   public function find_order_by_id( int|string $order_id ): array|WP_Post|null {
 	return get_post( $order_id );
+  }
+
+  /**
+   * @param int|string $order_id
+   *
+   * @return WP_Post|null
+   */
+  public function get_pending_payment( int|string $order_id ): WP_Post|null {
+	$payment  = null;
+	$invoices = $this->invoice_service->get_order_invoices( $order_id );
+
+	if ( count( $invoices ) ) {
+	  foreach ( $invoices as $invoice ) {
+		$status = get_post_meta( $invoice->ID, 'invoice_status', true );
+
+		// We just take one invoice at a time, hence the need for break statement
+		if ( $status === InvoiceStatus::PENDING->value ) {
+		  $payment = $invoice;
+		  break;
+		}
+	  }
+	};
+
+	return $payment;
   }
 }
