@@ -123,57 +123,5 @@ function pwcore_fill_orders_columns( $column, $post_id ): void {
 }
 
 function pwcore_show_order(): void {
-  // Get ALL meta data
-  $post_metas = get_post_meta( get_the_ID() );
-
-  // Get SINGLE meta data entry
-  $order_topic = get_post_meta( get_the_ID(), 'topic', true );
-
-  echo "<h1>" . $order_topic . "</h1><br/>";
-
-  unset( $post_metas['_edit_last'] );
-  unset( $post_metas['_edit_lock'] );
-
-  echo "<div style='display: flex; flex-direction: column; gap: 12px; font-size: 1.15rem'>";
-  foreach ( $post_metas as $key => $value ) {
-	switch ( $key ) {
-	  case 'topic':
-	  case 'deadline':
-		break;
-	  case 'description':
-		echo "<div><h4 style='margin-bottom: 0.25rem'>Order Description</h4>"
-			 . "<div style='padding: 1rem; background-color:#fff; border: 1px solid #cecece'>"
-			 . "$value[0]</div></div>";
-		break;
-	  case 'attachment':
-		$url = get_post_meta( get_the_ID(), 'attachment', true )['url'];
-		echo "<h3 style='margin-bottom: 0'>Attachment</h3>"
-			 . "<a href=\"$url\" rel='noreferrer' target='_blank' style='max-width: max-content'>"
-			 . "Download</a>";
-		break;
-	  case 'package_id':
-		$package_id   = get_post_meta( get_the_ID(), 'package_id', true );
-		$package      = get_post( $package_id );
-		$package_meta = get_post_meta( $package_id, 'price', true );
-		echo "<h3 style='margin-bottom: 0'>" . "Package" . "</h3>"
-			 . "<div>"
-			 . "<strong>$package?->post_title</strong>"
-			 . "<strong style='margin-left: 1rem'>($ $package_meta)</strong>"
-			 . "</div>";
-		break;
-	  case 'order_number':
-		echo "<h3 style='margin-bottom: 0'>" . "Order Number" . "</h3>"
-			 . "$value[0] <br/>";
-		break;
-	  case 'order_status':
-		echo "<h3 style='margin-bottom: 0'>" . "Order Status" . "</h3>"
-			 . ucfirst( $value[0] ) . " <br/>";
-		break;
-	  default:
-//		echo "<h3 style='margin-bottom: 0'>" . ucfirst( $key ) . "</h3>"
-//			 . "$value[0] <br/>";
-		break;
-	}
-  }
-  echo "</div>";
+  include PW_PLUGIN_PATH . '/views/partials/show-order-meta.php';
 }
