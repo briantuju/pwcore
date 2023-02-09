@@ -1,18 +1,46 @@
 <?php
 
 // Get ALL meta data
+use PWCore\Enums\OrderStatus;
+
 $post_metas = get_post_meta( get_the_ID() );
 
 // Get SINGLE meta data entry
-$order_topic = get_post_meta( get_the_ID(), 'topic', true );
+$order        = get_post( get_the_ID() );
+$order_topic  = get_post_meta( get_the_ID(), 'topic', true );
+$order_status = get_post_meta( get_the_ID(), 'order_status', true );
 
 unset( $post_metas['_edit_last'] );
 unset( $post_metas['_edit_lock'] );
-
-echo "<h1>" . $order_topic . "</h1><br/>";
 ?>
 
 <div class="d-flex flex-column gap-4 fs-6">
+  <div class="row justify-content-between row-cols-1 row-cols-md-2">
+    <div class="col">
+      <h1><?php echo $order_topic; ?></h1>
+    </div>
+
+    <div class="col">
+      <form method="post" id="order-status-form">
+        <label for="status" class="form-label fw-bold">Order Status</label>
+        <div class="d-flex flex-row gap-4">
+          <select name="status" id="status" class="form-control d-inline-block">
+			<?php foreach ( OrderStatus::values() as $status ) { ?>
+              <option value="<?php echo $status; ?>" <?php if ( $order_status === $status )
+				echo 'selected' ?>>
+				<?php echo ucfirst( $status ); ?>
+              </option>
+			<?php } ?>
+          </select>
+
+          <button type="submit" class="btn btn-primary mt-2" id="update-status-btn">
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <?php foreach ( $post_metas as $key => $value ) {
 	switch ( $key ) {
 	  case 'description':
@@ -48,3 +76,41 @@ echo "<h1>" . $order_topic . "</h1><br/>";
 	}
   } ?>
 </div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", function() {
+    jQuery(document).ready(function($) {
+      $("#post").submit(function(e) {
+        e.preventDefault();
+
+        const newStatus = $("#status").val();
+        const currentStatus = "<?php echo $order_status; ?>";
+        if (newStatus === currentStatus) return;
+
+        $("#update-status-btn").html(` <div class="spinner-border spinner-border-sm" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>`);
+
+        $.ajax({
+          url: '<?php echo get_rest_url( null, 'pwcore/v1/orders?action=status_update' ) ?>',
+          method: "POST",
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-WP-Nonce", window.wpApiSettings.nonce);
+          },
+          data: {
+            "status": newStatus,
+            "order_id": "<?php echo $order->ID; ?>"
+          },
+          success: function(data) {
+            $("#update-status-btn").html("Update");
+            alert(data);
+          },
+          error: function(error) {
+            $("#update-status-btn").html("Update");
+            alert(error?.responseJSON?.message || "Failed");
+          }
+        });
+      });
+    });
+  });
+</script>

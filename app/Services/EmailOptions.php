@@ -39,7 +39,7 @@ class EmailOptions {
 		)->set_default_value(
 			"<h3>Hello [name],</h3>" .
 			"<p>Kindly pay for order [order_number] for us to serve you.</p>"
-		),
+		)->set_help_text( "Allowed placeholders: <strong>name, order_number</strong>" ),
 		Field::make(
 			'rich_text',
 			$this->get_option_order_pay_received(),
@@ -47,15 +47,15 @@ class EmailOptions {
 		)->set_default_value(
 			"<h3>Hello [name],</h3>" .
 			"<p>We have received your payment of [amount] for order [order_number].</p>"
-		),
+		)->set_help_text( "Allowed placeholders: <strong>name, amount, order_number</strong>" ),
 		Field::make(
 			'rich_text',
 			$this->get_option_order_status_update(),
 			__( $this->get_label_order_status_update(), 'pwcore' )
 		)->set_default_value(
 			"<h3>Hello [name],</h3>" .
-			"<p>Your order has been updated from [old_status] to [new_status]</p>"
-		),
+			"<p>Your order status has been updated to [new_status]</p>"
+		)->set_help_text( "Allowed placeholders: <strong>name, new_status</strong>" ),
 	];
   }
 

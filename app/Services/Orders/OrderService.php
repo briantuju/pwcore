@@ -9,6 +9,7 @@ use PWCore\Enums\InvoiceStatus;
 use PWCore\Enums\OrderStatus;
 use PWCore\Services\EmailOptions;
 use PWCore\Services\InvoiceService;
+use PWCore\Services\Mail\EmailService;
 use WP_Post;
 use WP_User;
 
@@ -20,10 +21,13 @@ class OrderService {
 
   protected InvoiceService $invoice_service;
 
+  protected EmailService $email_service;
+
   public function __construct() {
 	$this->email_options   = new EmailOptions;
 	$this->order_options   = new OrderOptions;
 	$this->invoice_service = new InvoiceService;
+	$this->email_service   = new  EmailService;
   }
 
   /**
@@ -102,7 +106,23 @@ class OrderService {
    * @return bool|int
    */
   public function update_status( WP_Post $order, OrderStatus $status ): bool|int {
-	return update_post_meta( $order->ID, 'order_status', $status->value );
+	$response = update_post_meta( $order->ID, 'order_status', $status->value );
+
+	// Send email to client
+	$user       = $this->get_user_by_order_id( $order->ID );
+	$order_mail = pwcore_get_theme_options( $this->order_options->get_order_email() );
+	$email      = pwcore_get_theme_options(
+		$this->email_options->get_option_order_status_update()
+	);
+	$email      = str_replace( "[name]", $user?->user_login, $email );
+	$email      = str_replace( "[new_status]", $status->value, $email );
+	$this->email_service->send_email(
+		$user,
+		"Order status updated",
+		$email, "Support<$order_mail>"
+	);
+
+	return $response;
   }
 
   /**
@@ -130,6 +150,17 @@ class OrderService {
    */
   public function find_order_by_id( int|string $order_id ): array|WP_Post|null {
 	return get_post( $order_id );
+  }
+
+  /**
+   * @param int $order_id
+   *
+   * @return false|WP_User
+   */
+  public function get_user_by_order_id( int $order_id ) {
+	$user_id = get_post_meta( $order_id, 'user_id', true );
+
+	return get_user_by( 'ID', $user_id );
   }
 
   /**

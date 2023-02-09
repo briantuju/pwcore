@@ -5,6 +5,7 @@ namespace PWCore\Controllers;
 require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
 
 use PWCore\Enums\InvoiceStatus;
+use PWCore\Enums\OrderStatus;
 use PWCore\Services\EmailOptions;
 use PWCore\Services\InvoiceService;
 use PWCore\Services\Mail\EmailService;
@@ -84,5 +85,17 @@ class OrderController {
 	$this->email_service->send_email(
 		$user, "New Order", $email, "Support<$order_mail>"
 	);
+  }
+
+  /**
+   * @param int|string $order_id
+   * @param string $status
+   *
+   * @return void
+   */
+  public function status_update( int|string $order_id, string $status ): void {
+	$order = get_post( $order_id );
+
+	$this->order_service->update_status( $order, OrderStatus::from( $status ) );
   }
 }

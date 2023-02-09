@@ -19,8 +19,8 @@ add_action( 'rest_api_init', 'pwcore_create_rest_endpoints' );
 
 function pwcore_create_rest_endpoints(): void {
   register_rest_route( 'pwcore/v1', 'orders', [
-	  'methods'             => 'POST',
-	  'callback'            => 'pwcore_store_order',
+	  'methods'             => WP_REST_Server::ALLMETHODS,
+	  'callback'            => 'pwcore_orders_api',
 	  'permission_callback' => function () {
 		return '';
 	  }
@@ -43,12 +43,28 @@ function pwcore_create_rest_endpoints(): void {
   ] );
 }
 
-function pwcore_store_order( WP_REST_Request $request ): WP_REST_Response {
-  $data = ( new StoreOrderRequest )->validate( $request );
+function pwcore_orders_api( WP_REST_Request $request ) {
+  $params = $request->get_params();
+  $method = $request->get_method();
 
-  ( new OrderController )->store( $data );
+  switch ( $method ) {
+	case WP_REST_Server::CREATABLE:
+	{
+	  if ( isset( $params['action'] ) && $params['action'] === 'status_update' ) {
+		( new OrderController )->status_update( $params['order_id'], $params['status'] );
 
-  return new WP_REST_Response( 'Order created', 201 );
+		return new WP_REST_Response( 'Order status updated' );
+	  } else {
+		$data = ( new StoreOrderRequest )->validate( $request );
+
+		( new OrderController )->store( $data );
+
+		return new WP_REST_Response( 'Order created', 201 );
+	  }
+	}
+	default:
+	  return new WP_REST_Response( "$method method not implemented", 400 );
+  }
 }
 
 function pwcore_store_payment( WP_REST_Request $request ): WP_REST_Response {
