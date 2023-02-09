@@ -8,6 +8,17 @@ $packages = get_posts( [
 ?>
 
 <div class="wider container my-4">
+  <div
+    class="p-4 shadow-lg rounded-3 d-flex flex-column flex-md-row justify-content-between align-items-center gap-4 mb-5">
+    <span>
+      To create your order, select a package below, then click the continue button
+    </span>
+
+    <button type="button" class="btn btn-success max-w-xs" disabled id="continue-btn">
+      Continue
+    </button>
+  </div>
+
   <div class="package_grid">
 	<?php foreach ( $packages as $package ) { ?>
       <div
@@ -18,7 +29,7 @@ $packages = get_posts( [
         data-package_id="<?php echo $package->ID; ?>"
       >
         <div class="package_header">
-          <h3><?php echo $package->post_title; ?></h3>
+          <h3 class="package_title"><?php echo $package->post_title; ?></h3>
 
           <div>
             <span>$ <?php echo $package->price; ?> </span>
@@ -47,7 +58,7 @@ $packages = get_posts( [
 
 <script>
   window.addEventListener("DOMContentLoaded", function() {
-    // Get all submit buttons
+    // Get DOM elements
     const submitBtns = document.querySelectorAll(".package-submit");
 
     // Handle click events
@@ -59,8 +70,21 @@ $packages = get_posts( [
         // Reset other instance before applying styles
         resetStyles(id);
         pkg?.classList.toggle("package_container_active");
+
+        // Enable the continue button
+        updateContinueButton();
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
     });
+
+    const updateContinueButton = () => {
+      const continueBtn = document.querySelector("#continue-btn");
+      const pkg = document.querySelector(".package_container_active");
+
+      continueBtn.disabled = !pkg;
+    };
 
     const resetStyles = (id) => {
       const pkgs = document.querySelectorAll(".package_container");

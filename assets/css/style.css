@@ -67,6 +67,10 @@ label {
     color: var(--color-dark-50);
 }
 
+button:disabled, input:disabled, textarea:disabled {
+    cursor: not-allowed;
+}
+
 /* Override the bootstrap theme */
 .btn {
     border: none;
@@ -170,6 +174,10 @@ label {
     margin-top: 2.5rem;
 }
 
+.package_container_featured h3 {
+    color: var(--color-white);
+}
+
 .package_container_extra {
     position: absolute;
     width: 100%;
@@ -190,7 +198,7 @@ label {
     gap: 1rem;
 }
 
-.package_header h3 {
+.package_header h3.package_title {
     font-size: 1.25rem;
     font-weight: bold;
 }

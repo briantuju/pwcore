@@ -1,6 +1,6 @@
 /* Utility classes */
 .container {
-    width: 1140px;
+    width: 100%;
     max-width: 90%;
     margin: 0 auto;
 }
@@ -56,4 +56,17 @@
 .mx-auto {
     margin-left: auto;
     margin-right: auto;
+}
+
+/* Media Query */
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 1536px) {
+    .container {
+        max-width: 1140px;
+    }
 }
