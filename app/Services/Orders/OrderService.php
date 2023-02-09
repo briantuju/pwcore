@@ -49,8 +49,8 @@ class OrderService {
 	$email      = pwcore_get_theme_options( $this->email_options->get_option_new_order() );
 
 	$headers   = [];
-	$headers[] = "From: $admin_name <$admin_mail>";
-	$headers[] = "Reply-to: no-reply@example.com";
+	$headers[] = "From: $admin_name<$admin_mail>";
+	$headers[] = "Reply-to: no-reply<$admin_mail>";
 	$headers[] = "Content-Type: text/html";
 
 	// If the email is set, we do a string replacement of all placeholders
@@ -70,22 +70,27 @@ class OrderService {
   }
 
   /**
-   * @return array|mixed
+   * @return array|mixed|void
    */
-  public function upload_single_attachment(): mixed {
+  public function upload_single_attachment() {
 	if ( ! function_exists( 'wp_handle_upload' ) ) {
 	  require_once( ABSPATH . 'wp-admin/includes/file.php' );
 	}
 
-	$upload = wp_handle_upload( $_FILES['attachment'], [
+	$uploaded_file = $_FILES['attachment'];
+	$movefile      = wp_handle_upload( $uploaded_file, [
 		'test_form' => false
 	] );
 
-	return $upload['error'] ?? [
-		'url'  => $upload['url'],
-		'file' => $upload['file'],
-		'type' => $upload['type'],
-	];
+	if ( $movefile && ! isset( $movefile['error'] ) ) {
+	  return $movefile['error'] ?? [
+		  'url'  => $movefile['url'],
+		  'file' => $movefile['file'],
+		  'type' => $movefile['type'],
+	  ];
+	} else {
+	  wp_send_json( $movefile['error'], 400 );
+	}
   }
 
   /**

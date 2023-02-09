@@ -29,18 +29,14 @@ class OrderController {
   /**
    * @param array $data
    *
-   * @return void|WP_REST_Response|null
+   * @return void
    */
-  public function store( array $data ) {
+  public function store( array $data ): void {
 
 	// Upload attachments if available
 	$attachment = [];
 	if ( count( $_FILES['attachment'] ) ) {
 	  $attachment = $this->order_service->upload_single_attachment();
-
-	  if ( ! is_array( $attachment ) ) {
-		return new WP_REST_Response( $attachment, 400 );
-	  }
 	}
 	$data['attachment'] = $attachment;
 

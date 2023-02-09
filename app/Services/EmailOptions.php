@@ -26,21 +26,33 @@ class EmailOptions {
 			'rich_text',
 			$this->get_option_new_order(),
 			__( $this->get_label_new_order(), 'pwcore' )
+		)->set_default_value(
+			"<h3>Hello [name],</h3>" .
+			"<p>We have received your order. Kindly pay for it to proceed.</p>"
 		)->set_help_text( "Allowed placeholders: <strong>name, order_url</strong>" ),
 		Field::make(
 			'rich_text',
 			$this->get_option_order_pay_request(),
 			__( $this->get_label_order_pay_request(), 'pwcore' )
+		)->set_default_value(
+			"<h3>Hello [name],</h3>" .
+			"<p>Kindly pay for order [order_number] for us to serve you.</p>"
 		),
 		Field::make(
 			'rich_text',
 			$this->get_option_order_pay_received(),
 			__( $this->get_label_order_pay_received(), 'pwcore' )
+		)->set_default_value(
+			"<h3>Hello [name],</h3>" .
+			"<p>We have received your payment of [amount] for order [order_number].</p>"
 		),
 		Field::make(
 			'rich_text',
 			$this->get_option_order_status_update(),
 			__( $this->get_label_order_status_update(), 'pwcore' )
+		)->set_default_value(
+			"<h3>Hello [name],</h3>" .
+			"<p>Your order has been updated from [old_status] to [new_status]</p>"
 		),
 	];
   }

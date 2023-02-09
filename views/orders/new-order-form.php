@@ -102,7 +102,7 @@
           },
           error: function(error) {
             $("#submit-order-btn").html(`Continue`);
-            alert(error?.responseJSON?.message || "Failed");
+            alert(error?.responseJSON || "Failed");
             // $("#form-errors").html(error?.responseJSON?.message || "Failed").fadeIn();
           }
         });
