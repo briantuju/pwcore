@@ -234,7 +234,7 @@ button:disabled, input:disabled, textarea:disabled {
     -webkit-animation: blink 2s linear infinite;
 }
 
-.modal-btn {
+button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"] {
     padding: 16px;
     font-weight: bold;
     border-radius: var(--rounded-md);
