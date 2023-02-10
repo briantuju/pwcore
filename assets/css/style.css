@@ -234,6 +234,17 @@ button:disabled, input:disabled, textarea:disabled {
     -webkit-animation: blink 2s linear infinite;
 }
 
+.modal-btn {
+    padding: 16px;
+    background-color: #553870;
+    color: var(--color-white);
+    transition: all .3s ease-in-out;
+}
+
+.modal-btn:hover {
+    color: #06F634;
+}
+
 @keyframes blink {
     0% {
         opacity: 0.25;
