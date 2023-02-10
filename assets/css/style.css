@@ -235,15 +235,16 @@ button:disabled, input:disabled, textarea:disabled {
 }
 
 button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"] {
-    padding: 16px;
+    padding: 10px 16px;
     font-weight: bold;
+    font-size: large;
     border-radius: var(--rounded-md);
     background-color: #553870;
     color: var(--color-white);
     transition: all .3s ease-in-out;
 }
 
-.modal-btn:hover {
+button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hover {
     color: #06F634;
 }
 
