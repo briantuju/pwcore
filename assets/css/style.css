@@ -236,6 +236,8 @@ button:disabled, input:disabled, textarea:disabled {
 
 .modal-btn {
     padding: 16px;
+    font-weight: bold;
+    border-radius: var(--rounded-md);
     background-color: #553870;
     color: var(--color-white);
     transition: all .3s ease-in-out;

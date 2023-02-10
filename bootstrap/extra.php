@@ -10,7 +10,7 @@ function pwcore_show_get_started_modal( array|string $attr, $content ) {
 
   return '
 <!-- Button trigger modal -->
-<button id=' . $args["id"] . ' type="button" class="btn modal-btn" data-bs-toggle="modal" data-bs-target="#getStartedModal">
+<button id=' . $args["id"] . ' type="button" class="modal-btn" data-bs-toggle="modal" data-bs-target="#getStartedModal">
 ' . $args["text"] . '
 </button>
 <!-- Modal -->
