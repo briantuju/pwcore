@@ -4,13 +4,14 @@ add_shortcode( 'pw_get_started_modal', 'pwcore_show_get_started_modal' );
 
 function pwcore_show_get_started_modal( array|string $attr, $content ) {
   $args = shortcode_atts( [
-	  'form_short_code' => ''
+	  'text' => 'Get started',
+	  'id'   => 'blink'
   ], $attr );
 
   return '
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#getStartedModal">
-Get started
+<button id=' . $args["id"] . ' type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#getStartedModal">
+' . $args["text"] . '
 </button>
 <!-- Modal -->
 <div class="modal fade" id="getStartedModal" tabindex="-1" aria-labelledby="getStartedModalLabel" aria-hidden="true">
