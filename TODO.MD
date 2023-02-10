@@ -1,10 +1,10 @@
 Service page (research)
 
-FAQ page ()
+FAQ page () ✅
 
 Blog page design (sidebar content)
 
-Button animation (on homepage)
+Button animation (on homepage) ✅
 
 Orders page (design) ✅
 
