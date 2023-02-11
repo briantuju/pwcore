@@ -1,4 +1,9 @@
-<?php include_once PW_PLUGIN_PATH . '/views/orders/packages-select.php'; ?>
+<?php
+
+include_once PW_PLUGIN_PATH . '/views/orders/packages-select.php';
+
+pwcore_needs_login();
+?>
 
 <style>
     .offcanvas-end {

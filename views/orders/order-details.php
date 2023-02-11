@@ -5,6 +5,8 @@ require_once( PW_PLUGIN_PATH . '/vendor/autoload.php' );
 use PWCore\Enums\InvoiceStatus;
 use PWCore\Services\Orders\OrderService;
 
+pwcore_needs_login();
+
 $site_url = get_site_url();
 $order_id = $_GET['order_id'];
 

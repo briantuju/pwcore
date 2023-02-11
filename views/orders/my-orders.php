@@ -2,6 +2,8 @@
 
 use PWCore\Services\Orders\OrderService;
 
+pwcore_needs_login();
+
 $order_details_url = get_site_url() . '/order-details?order_id=';
 $user_id           = wp_get_current_user()?->ID;
 

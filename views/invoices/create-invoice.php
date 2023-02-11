@@ -1,4 +1,7 @@
 <?php
+
+pwcore_needs_login();
+
 $customers = get_users( [
 	'role'   => 'subscriber',
 	'fields' => [

@@ -1,5 +1,7 @@
 <?php
 
+pwcore_needs_login();
+
 $site_url   = get_site_url();
 $order_id   = $_GET['order_id'];
 $invoice_id = $_GET['invoice_id'];
