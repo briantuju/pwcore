@@ -44,7 +44,6 @@ if ( ! class_exists( 'PWCore' ) ) {
 	public function initialize(): void {
 	  // Boostrap files first
 	  include_once PW_PLUGIN_PATH . '/bootstrap/app.php';
-	  include_once PW_PLUGIN_PATH . '/bootstrap/blog.php';
 	  include_once PW_PLUGIN_PATH . '/bootstrap/extra.php';
 	  include_once PW_PLUGIN_PATH . '/bootstrap/faq.php';
 	  include_once PW_PLUGIN_PATH . '/bootstrap/orders.php';
