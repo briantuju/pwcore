@@ -12,6 +12,8 @@ class EmailOptions {
   protected string $label_default = 'Site Email';
   protected string $option_new_order = 'pw_email_new_order';
   protected string $label_new_order = 'Order Created';
+  protected string $option_new_invoice = 'pw_email_new_invoice';
+  protected string $label_new_invoice = 'Order Invoice';
   protected string $option_order_pay_request = 'pw_email_order_pay_request';
   protected string $label_order_pay_request = 'Order Payment Requested';
   protected string $option_order_pay_received = 'pw_email_order_pay_received';
@@ -32,6 +34,15 @@ class EmailOptions {
 			"<h3>Hello [name],</h3>" .
 			"<p>We have received your order. Kindly pay for it to proceed.</p>"
 		)->set_help_text( "Allowed placeholders: <strong>name, order_url</strong>" ),
+		Field::make(
+			'rich_text',
+			$this->get_option_new_invoice(),
+			__( $this->get_label_new_invoice(), 'pwcore' )
+		)->set_default_value(
+			"<h3>Hello [name],</h3>"
+			. "<p>You have a pending invoice for order [order_number]</p>"
+			. "<p>You should pay <strong>$ [amount]</strong> </p>"
+		)->set_help_text( "Allowed placeholders: <strong>name, order_number, amount</strong>" ),
 		Field::make(
 			'rich_text',
 			$this->get_option_order_pay_request(),
@@ -127,5 +138,19 @@ class EmailOptions {
    */
   public function get_label_default(): string {
 	return $this->label_default;
+  }
+
+  /**
+   * @return string
+   */
+  public function get_option_new_invoice(): string {
+	return $this->option_new_invoice;
+  }
+
+  /**
+   * @return string
+   */
+  public function get_label_new_invoice(): string {
+	return $this->label_new_invoice;
   }
 }
