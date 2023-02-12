@@ -61,7 +61,7 @@ if ( $invoice ) {
     <div class="col-12 d-flex flex-row gap-4">
       <strong>Package</strong>
       <span><?php echo get_post( $order->package_id )?->post_title; ?></span>
-      <strong>($ <?php echo get_post( $order->package_id )?->price; ?>)</strong>
+      <strong>($ <?php echo $invoice?->amount ?? get_post( $order->package_id )?->price; ?>)</strong>
     </div>
 
     <div class="col-12 d-flex flex-row gap-4">
