@@ -14,6 +14,8 @@ add_action( 'wp_enqueue_scripts', 'pwcore_enqueue_assets' );
 
 add_action( 'admin_enqueue_scripts', 'pwcore_admin_styles' );
 
+add_action( 'after_setup_theme', 'pwcore_hide_admin_bar' );
+
 add_action( 'after_setup_theme', 'load_carbon_fields' );
 
 add_action( 'carbon_fields_register_fields', 'create_options_page' );
@@ -114,4 +116,10 @@ function pwcore_custom_login_redirect( $user_login, WP_User $user ) {
 
   wp_redirect( $redirect_url );
   exit;
+}
+
+function pwcore_hide_admin_bar(): void {
+  if ( ! current_user_can( 'manage_options' ) ) {
+	show_admin_bar( false );
+  }
 }
