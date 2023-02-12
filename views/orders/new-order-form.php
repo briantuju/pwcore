@@ -50,7 +50,7 @@ pwcore_needs_login();
 
       <div class="mb-3">
         <label class="form-label" for="attachment">Attachment</label>
-        <input type="file" id="attachment" class="form-control" name="attachment" required />
+        <input type="file" id="attachment" class="form-control" name="attachment" />
       </div>
 
       <button type="submit" class="btn btn-primary" id="submit-order-btn">
@@ -100,7 +100,6 @@ pwcore_needs_login();
           contentType: false,
           processData: false,
           success: function(data) {
-            console.log(data);
             $("#submit-order-btn").html(`Continue`);
             alert("Order Created");
             window.location.href = "<?php echo get_site_url() . '/order-details?order_id=';?>"

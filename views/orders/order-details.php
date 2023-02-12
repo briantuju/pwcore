@@ -75,7 +75,11 @@ if ( $invoice ) {
         <?php
 		$attachment = get_post_meta( $order_id, 'attachment', true );
 		$url        = $attachment['url'];
-		echo "<a href=\"$url\">Download</a>";
+		if ( count( $attachment ) ) {
+		  echo "<a href=\"$url\">Download</a>";
+		} else {
+	  echo "No attachment";
+    }
 		?>
       </span>
     </div>

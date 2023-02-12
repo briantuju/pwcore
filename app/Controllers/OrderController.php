@@ -57,7 +57,7 @@ class OrderController {
 
 	// Upload attachments if available
 	$attachment = [];
-	if ( count( $_FILES['attachment'] ) ) {
+	if ( count( $_FILES['attachment'] ) && $_FILES['attachment']['error'] === 0 ) {
 	  $attachment = $this->order_service->upload_single_attachment();
 	}
 	$data['attachment'] = $attachment;
