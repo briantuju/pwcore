@@ -11,6 +11,7 @@ use PWCore\Services\InvoiceService;
 use PWCore\Services\Mail\EmailService;
 use PWCore\Services\Orders\OrderOptions;
 use PWCore\Services\Orders\OrderService;
+use WP_Post;
 
 class OrderController {
 
@@ -50,9 +51,9 @@ class OrderController {
   /**
    * @param array $data
    *
-   * @return void
+   * @return array|WP_Post|null
    */
-  public function store( array $data ): void {
+  public function store( array $data ): array|WP_Post|null {
 
 	// Upload attachments if available
 	$attachment = [];
@@ -85,6 +86,8 @@ class OrderController {
 	$this->email_service->send_email(
 		$user, "New Order", $email, "Support<$order_mail>"
 	);
+
+	return $order;
   }
 
   /**

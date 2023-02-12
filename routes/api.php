@@ -43,7 +43,7 @@ function pwcore_create_rest_endpoints(): void {
   ] );
 }
 
-function pwcore_orders_api( WP_REST_Request $request ) {
+function pwcore_orders_api( WP_REST_Request $request ): WP_REST_Response {
   $params = $request->get_params();
   $method = $request->get_method();
 
@@ -57,9 +57,9 @@ function pwcore_orders_api( WP_REST_Request $request ) {
 	  } else {
 		$data = ( new StoreOrderRequest )->validate( $request );
 
-		( new OrderController )->store( $data );
+		$order = ( new OrderController )->store( $data );
 
-		return new WP_REST_Response( 'Order created', 201 );
+		wp_send_json( $order, 201 );
 	  }
 	}
 	default:

@@ -100,15 +100,15 @@ pwcore_needs_login();
           contentType: false,
           processData: false,
           success: function(data) {
+            console.log(data);
             $("#submit-order-btn").html(`Continue`);
             alert("Order Created");
-            window.location.reload();
-            // $("#form-success").html(data || "Success").show().fadeIn();
+            window.location.href = "<?php echo get_site_url() . '/order-details?order_id=';?>"
+              + data.ID;
           },
           error: function(error) {
             $("#submit-order-btn").html(`Continue`);
             alert(error?.responseJSON || "Failed");
-            // $("#form-errors").html(error?.responseJSON?.message || "Failed").fadeIn();
           }
         });
       });
