@@ -18,6 +18,8 @@ add_action( 'after_setup_theme', 'load_carbon_fields' );
 
 add_action( 'carbon_fields_register_fields', 'create_options_page' );
 
+add_action( 'wp_login', 'pwcore_custom_login_redirect', 10, 2 );
+
 function pwcore_admin_styles(): void {
   // Register the stylesheet and then enqueue it
   wp_register_style(
@@ -99,4 +101,17 @@ function pwcore_remove_publish_metabox(): void {
   remove_meta_box( 'submitdiv', 'pw_orders', 'side' );
   remove_meta_box( 'submitdiv', 'pw_packages', 'side' );
   remove_meta_box( 'submitdiv', 'pw_transactions', 'side' );
+}
+
+function pwcore_custom_login_redirect( $user_login, WP_User $user ) {
+  $redirect_url = $_GET['redirect_to'];
+
+  if ( in_array( 'subscriber', $user->roles ) ) {
+	$redirect_url = $redirect_url ?? get_site_url() . '/my-orders';
+  } else {
+	$redirect_url = $redirect_url ?? admin_url();
+  }
+
+  wp_redirect( $redirect_url );
+  exit;
 }
