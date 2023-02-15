@@ -45,7 +45,7 @@ if ( $invoice ) {
     </div>
 
     <div class="col-12">
-      <h1 class="fs-3">
+      <h1 class="fs-3 color-purple">
         <span><?php echo $order->order_number; ?></span>
         <span class="mx-1">|</span>
         <span><?php echo $order->post_title; ?></span>

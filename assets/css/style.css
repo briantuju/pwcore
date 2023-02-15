@@ -13,6 +13,7 @@
     --color-warning: #ff6e31;
     --color-blue-faint: #3f72af0d;
     --color-transoarent: #00000000;
+    --color-purple: #553870;
 
     --font-size: 16px;
     --font-huge: bold 60px "Lato", sans-serif;
@@ -69,6 +70,10 @@ label {
 
 button:disabled, input:disabled, textarea:disabled {
     cursor: not-allowed;
+}
+
+.color-purple {
+    color: var(--color-purple);
 }
 
 /* Override the bootstrap theme */
@@ -239,7 +244,7 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"] {
     font-weight: bold;
     font-size: large;
     border-radius: var(--rounded-md);
-    background-color: #553870;
+    background-color: var(--color-purple);
     color: var(--color-white);
     transition: all .3s ease-in-out;
 }
