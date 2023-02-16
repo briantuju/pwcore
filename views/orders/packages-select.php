@@ -1,10 +1,8 @@
 <?php
 
-$packages = get_posts( [
-	'post_type'   => 'pw_packages',
-	'post_status' => 'publish',
-	'numberposts' => - 1
-] );
+use PWCore\Services\PackageService;
+
+$packages = ( new PackageService )->index();
 ?>
 
 <div class="wider container my-4">
