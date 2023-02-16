@@ -220,12 +220,39 @@ button:disabled, input:disabled, textarea:disabled {
 }
 
 .package_grid .package_content {
-    text-align: left;
+    position: relative;
+    transition: all .3s ease;
+}
+
+.package_grid .package_read_more {
+    position: absolute;
+    padding: .3rem 0;
+    top: 370px;
+    z-index: 2;
+    background-color: var(--color-white);
+    width: 100%;
+    border-radius: 8px;
+    transition: all .3s ease-in-out;
+}
+
+.package_grid .package_read_more.expanded {
+    position: relative;
+    top: 0;
+}
+
+.package_grid .package_scroll {
+    max-height: 420px;
+    overflow: hidden;
+}
+
+.package_grid .package_scroll.expanded {
+    max-height: max-content;
 }
 
 .package_grid .package_content ul li {
     text-align: left;
     list-style: none;
+    margin-bottom: .5rem;
 }
 
 .package_grid .package_content ul li::before {
@@ -287,6 +314,9 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
 }
 
 @media (min-width: 1024px) {
+    .package_grid .package_read_more {
+        top: 380px;
+    }
 }
 
 @media (min-width: 1280px) {

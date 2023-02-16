@@ -58,6 +58,7 @@ $packages = ( new PackageService )->index();
   window.addEventListener("DOMContentLoaded", function() {
     // Get DOM elements
     const submitBtns = document.querySelectorAll(".package-submit");
+    const contents = document.querySelectorAll(".package_grid .package_content");
 
     // Handle click events
     submitBtns?.forEach(btn => {
@@ -77,6 +78,34 @@ $packages = ( new PackageService )->index();
       });
     });
 
+    const maxHeight = 420;
+    contents?.forEach(content => {
+      if (content.scrollHeight > maxHeight) {
+        content.classList.add("package_scroll");
+        let readMoreEl = document.createElement("div");
+        let button = document.createElement("button");
+        button.setAttribute("class", "btn btn-sm btn-info");
+        button.innerHTML = "Read more";
+        readMoreEl.setAttribute("class", "package_read_more");
+        readMoreEl.appendChild(button);
+        content.appendChild(readMoreEl);
+
+        readMoreEl.addEventListener("click", function() {
+          let isExpanded = content.classList.contains("expanded");
+
+          if (!isExpanded) {
+            readMoreEl.classList.add("expanded");
+            button.innerHTML = "Show less";
+          } else {
+            readMoreEl.classList.remove("expanded");
+            button.innerHTML = "Read more";
+          }
+
+          content.classList.toggle("expanded");
+        });
+      }
+    });
+
     const updateContinueButton = () => {
       const continueBtn = document.querySelector("#continue-btn");
       const pkg = document.querySelector(".package_container_active");
@@ -89,6 +118,9 @@ $packages = ( new PackageService )->index();
       pkgs.forEach(pkg => {
         if (pkg.id !== id) pkg.classList.remove("package_container_active");
       });
+    };
+
+    const createToggle = () => {
     };
   });
 
