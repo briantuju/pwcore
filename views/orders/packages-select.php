@@ -84,7 +84,7 @@ $packages = ( new PackageService )->index();
         content.classList.add("package_scroll");
         let readMoreEl = document.createElement("div");
         let button = document.createElement("button");
-        button.setAttribute("class", "btn btn-sm btn-info");
+        button.setAttribute("class", "package_btn_more");
         button.innerHTML = "Read more";
         readMoreEl.setAttribute("class", "package_read_more");
         readMoreEl.appendChild(button);
