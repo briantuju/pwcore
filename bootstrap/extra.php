@@ -18,7 +18,7 @@ function pwcore_show_get_started_modal( array|string $attr, $content ) {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="getStartedModalLabel">Fill the form to get started</h1>
+        <h3 class="modal-title fs-5" id="getStartedModalLabel">Fill the form to get started</h3>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
