@@ -116,6 +116,11 @@ class OrderService {
 	);
 	$email      = str_replace( "[name]", $user?->user_login, $email );
 	$email      = str_replace( "[new_status]", $status->value, $email );
+	$email      = str_replace(
+		"[order_number]",
+		get_post_meta( $order->ID, 'order_number', true ),
+		$email
+	);
 	$this->email_service->send_email(
 		$user,
 		"Order status updated",

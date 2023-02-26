@@ -68,6 +68,7 @@ class OrderController {
 	$order           = $this->order_service->create_order( $data, $user );
 
 	// Create an invoice for this order
+	$package      = get_post( $data['package_id'] );
 	$amount       = get_post_meta( $data['package_id'], 'price', true );
 	$order_number = get_post_meta( $order->ID, 'order_number', true );
 	$this->invoice_service->create_invoice( [
@@ -83,6 +84,9 @@ class OrderController {
 	$order_mail = pwcore_get_theme_options( $this->order_options->get_order_email() );
 	$email      = pwcore_get_theme_options( $this->email_options->get_option_new_order() );
 	$email      = str_replace( "[name]", $user?->user_login, $email );
+	$email      = str_replace( "[order_number]", $order_number, $email );
+	$email      = str_replace( "[package]", $package->post_title, $email );
+	$email      = str_replace( "[amount]", $amount, $email );
 	$this->email_service->send_email(
 		$user, "New Order", $email, "Support<$order_mail>"
 	);

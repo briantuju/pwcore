@@ -60,6 +60,7 @@ class InvoiceController {
 	] );
 
 	// Send payment received email
+	$package    = get_post( get_post_meta( $order->ID, 'package_id', true ) );
 	$order_mail = pwcore_get_theme_options( $this->order_options->get_order_email() );
 	$email      = pwcore_get_theme_options(
 		$this->email_options->get_option_new_invoice()
@@ -67,6 +68,7 @@ class InvoiceController {
 	$email      = str_replace( "[name]", $user?->user_login, $email );
 	$email      = str_replace( "[amount]", $data['amount'], $email );
 	$email      = str_replace( "[order_number]", $order_number, $email );
+	$email      = str_replace( "[package]", $package->post_title, $email );
 	$this->email_service->send_email(
 		$user,
 		"Invoice for Order " . $order_number,

@@ -33,7 +33,7 @@ class EmailOptions {
 		)->set_default_value(
 			"<h3>Hello [name],</h3>" .
 			"<p>We have received your order. Kindly pay for it to proceed.</p>"
-		)->set_help_text( "Allowed placeholders: <strong>name, order_url</strong>" ),
+		)->set_help_text( "Allowed placeholders: <strong>name, order_number, package, amount</strong>" ),
 		Field::make(
 			'rich_text',
 			$this->get_option_new_invoice(),
@@ -42,7 +42,7 @@ class EmailOptions {
 			"<h3>Hello [name],</h3>"
 			. "<p>You have a pending invoice for order [order_number]</p>"
 			. "<p>You should pay <strong>$ [amount]</strong> </p>"
-		)->set_help_text( "Allowed placeholders: <strong>name, order_number, amount</strong>" ),
+		)->set_help_text( "Allowed placeholders: <strong>name, order_number, package, amount</strong>" ),
 		Field::make(
 			'rich_text',
 			$this->get_option_order_pay_request(),
@@ -50,7 +50,7 @@ class EmailOptions {
 		)->set_default_value(
 			"<h3>Hello [name],</h3>" .
 			"<p>Kindly pay for order [order_number] for us to serve you.</p>"
-		)->set_help_text( "Allowed placeholders: <strong>name, order_number</strong>" ),
+		)->set_help_text( "Allowed placeholders: <strong>name, order_number, package, amount</strong>" ),
 		Field::make(
 			'rich_text',
 			$this->get_option_order_pay_received(),
@@ -58,7 +58,7 @@ class EmailOptions {
 		)->set_default_value(
 			"<h3>Hello [name],</h3>" .
 			"<p>We have received your payment of [amount] for order [order_number].</p>"
-		)->set_help_text( "Allowed placeholders: <strong>name, amount, order_number</strong>" ),
+		)->set_help_text( "Allowed placeholders: <strong>name, order_number, package, amount</strong>" ),
 		Field::make(
 			'rich_text',
 			$this->get_option_order_status_update(),
@@ -66,7 +66,7 @@ class EmailOptions {
 		)->set_default_value(
 			"<h3>Hello [name],</h3>" .
 			"<p>Your order status has been updated to [new_status]</p>"
-		)->set_help_text( "Allowed placeholders: <strong>name, new_status</strong>" ),
+		)->set_help_text( "Allowed placeholders: <strong>name, order_number, new_status</strong>" ),
 	];
   }
 
