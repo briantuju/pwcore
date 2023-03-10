@@ -9,6 +9,7 @@ use PWCore\Requests\StoreInvoiceRequest;
 use PWCore\Requests\StoreOrderRequest;
 use PWCore\Requests\StoreTransactionRequest;
 use PWCore\Services\Orders\OrderService;
+use PWCore\Services\PortfolioService;
 
 /*
  * In this file, we can register all the routes that will
@@ -29,6 +30,14 @@ function pwcore_create_rest_endpoints(): void {
   register_rest_route( 'pwcore/v1', 'invoices', [
 	  'methods'             => WP_REST_Server::ALLMETHODS,
 	  'callback'            => 'pwcore_invoices_api',
+	  'permission_callback' => function () {
+		return '';
+	  }
+  ] );
+
+  register_rest_route( 'pwcore/v1', 'portfolio', [
+	  'methods'             => WP_REST_Server::ALLMETHODS,
+	  'callback'            => 'pwcore_portfolio_api',
 	  'permission_callback' => function () {
 		return '';
 	  }
@@ -105,4 +114,12 @@ function pwcore_invoices_api( WP_REST_Request $request ): WP_REST_Response {
 	default:
 	  return new WP_REST_Response( 'This request cannot be handled', 400 );
   }
+}
+
+function pwcore_portfolio_api( WP_REST_Request $request ): WP_REST_Response {
+  $params = $request->get_params();
+
+  $portfolio = ( new PortfolioService )->createOrUpdate( $params );
+
+  return new WP_REST_Response( $portfolio, 200 );
 }

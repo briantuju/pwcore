@@ -103,6 +103,7 @@ function pwcore_remove_publish_metabox(): void {
   remove_meta_box( 'submitdiv', 'pw_orders', 'side' );
   remove_meta_box( 'submitdiv', 'pw_packages', 'side' );
   remove_meta_box( 'submitdiv', 'pw_transactions', 'side' );
+  remove_meta_box( 'submitdiv', 'pw_portfolio', 'side' );
 }
 
 function pwcore_custom_login_redirect( $user_login, WP_User $user ) {
