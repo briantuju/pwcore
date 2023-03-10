@@ -14,17 +14,33 @@ $companies = ( new PortfolioService )->query( 'company' );
 
 <!-- Tab content -->
 <div id="personal" class="tabcontent">
-  <h3>Personal</h3>
-  <?php foreach ( $personal as $item ) { ?>
-    <p><?php echo $item->post_title; ?></p>
-  <?php } ?>
+  <div class="portfolio-container">
+	<?php foreach ( $personal as $item ) {
+	  $image = get_post_meta( $item->ID, 'image', true ); ?>
+      <div class="portfolio-content">
+        <img src="<?php echo $image['url'] ?>" alt="<?php echo $item->post_title; ?>">
+        <h3><?php echo $item->post_title; ?></h3>
+        <a class="btn" href="<?php echo $item->url ?>" target="_blank" rel="noreferrer">
+          Show More
+        </a>
+      </div>
+	<?php } ?>
+  </div>
 </div>
 
 <div id="company" class="tabcontent">
-  <h3>Company</h3>
-  <?php foreach ( $companies as $item ) { ?>
-    <p><?php echo $item->post_title; ?></p>
-  <?php } ?>
+  <div class="portfolio-container">
+	<?php foreach ( $companies as $company ) {
+	  $image = get_post_meta( $company->ID, 'image', true ); ?>
+      <div class="portfolio-content">
+        <img src="<?php echo $image['url'] ?>" alt="<?php echo $company->post_title; ?>">
+        <h3><?php echo $company->post_title; ?></h3>
+        <a class="btn" href="<?php echo $company->url ?>" target="_blank" rel="noreferrer">
+          Show More
+        </a>
+      </div>
+	<?php } ?>
+  </div>
 </div>
 
 <script>

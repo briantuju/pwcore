@@ -327,6 +327,53 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
     padding: 6px 12px;
 }
 
+.portfolio-container {
+    border: 1px solid #cecece;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+    padding: 1rem 2rem;
+}
+
+.portfolio-content {
+    position: relative;
+    padding: 1.5rem .75rem;
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-xl);
+}
+
+.portfolio-content:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 70%;
+    border: 3px solid orangered;
+    border-right: none;
+    border-bottom: none;
+    left: -1rem;
+    top: .25rem;
+}
+
+.portfolio-content img {
+    display: block;
+    width: 75%;
+    margin: 0 auto;
+}
+
+.portfolio-content h3 {
+    margin: 1rem 0;
+    font-size: 1.15rem;
+}
+
+.portfolio-content a {
+    background-color: var(--color-purple);
+    color: var(--color-white);
+}
+
+.portfolio-content a:hover {
+    outline: 1px solid #cecece;
+}
+
 @keyframes blink {
     0% {
         opacity: 0.25;
@@ -344,6 +391,10 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
 
 /* Media Query */
 @media (min-width: 640px) {
+    .portfolio-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
 }
 
 @media (min-width: 768px) {
@@ -357,6 +408,11 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
 }
 
 @media (min-width: 1024px) {
+    .portfolio-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+    }
+
     .package_grid .package_read_more {
         top: 380px;
     }
