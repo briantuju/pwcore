@@ -294,6 +294,10 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
 /* Style the tab */
 .pwcore.tab {
     overflow: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Style the buttons that are used to open the tab content */
