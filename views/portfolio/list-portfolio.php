@@ -7,9 +7,9 @@ $companies = ( new PortfolioService )->query( 'company' );
 ?>
 
 <!-- Tab links -->
-<div class="tab">
-  <button class="tablinks" data-tab="personal" id="defaultOpen">Personal Profile</button>
-  <button class="tablinks" data-tab="company">Company Profile</button>
+<div class="pwcore tab">
+  <button class="pwcore tablinks" data-tab="personal" id="defaultOpen">Personal Profile</button>
+  <button class="pwcore tablinks" data-tab="company">Company Profile</button>
 </div>
 
 <!-- Tab content -->

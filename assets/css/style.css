@@ -292,12 +292,12 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
 }
 
 /* Style the tab */
-.tab {
+.pwcore.tab {
     overflow: hidden;
 }
 
 /* Style the buttons that are used to open the tab content */
-.tab button {
+.pwcore.tab button {
     background-color: var(--color-blue-faint);
     float: left;
     border: none;
@@ -310,24 +310,24 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
 }
 
 /* Change background color of buttons on hover */
-.tab button:hover {
+.pwcore.tab button:hover {
     background-color: var(--color-purple);
     color: var(--color-white);
 }
 
 /* Create an active/current tablink class */
-.tab button.active {
+.pwcore.tab button.active {
     background-color: var(--color-purple);
     color: var(--color-white);
 }
 
 /* Style the tab content */
-.tabcontent {
+#personal.tabcontent, #company.tabcontent {
     display: none;
     padding: 6px 12px;
 }
 
-.portfolio-container {
+.tabcontent .portfolio-container {
     border: 1px solid #cecece;
     display: grid;
     gap: 1rem;
@@ -335,14 +335,14 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
     padding: 1rem 2rem;
 }
 
-.portfolio-content {
+.tabcontent .portfolio-content {
     position: relative;
     padding: 1.5rem .75rem;
     background-color: var(--color-white);
     box-shadow: var(--shadow-xl);
 }
 
-.portfolio-content:before {
+.tabcontent .portfolio-content:before {
     content: "";
     position: absolute;
     width: 100%;
@@ -354,23 +354,23 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
     top: .25rem;
 }
 
-.portfolio-content img {
+.tabcontent .portfolio-content img {
     display: block;
     width: 75%;
     margin: 0 auto;
 }
 
-.portfolio-content h3 {
+.tabcontent .portfolio-content h3 {
     margin: 1rem 0;
     font-size: 1.15rem;
 }
 
-.portfolio-content a {
+.tabcontent .portfolio-content a {
     background-color: var(--color-purple);
     color: var(--color-white);
 }
 
-.portfolio-content a:hover {
+.tabcontent .portfolio-content a:hover {
     outline: 1px solid #cecece;
 }
 
@@ -391,7 +391,7 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
 
 /* Media Query */
 @media (min-width: 640px) {
-    .portfolio-container {
+    .tabcontent .portfolio-container {
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
     }
@@ -408,7 +408,7 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
 }
 
 @media (min-width: 1024px) {
-    .portfolio-container {
+   .tabcontent .portfolio-container {
         grid-template-columns: repeat(3, 1fr);
         gap: 3rem;
     }

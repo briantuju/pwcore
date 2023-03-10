@@ -14,7 +14,6 @@ function pwcore_create_portfolio(): void {
   $args = [
 	  'public'             => true,
 	  'publicly_queryable' => false,
-	  'has_archive'        => true,
 	  'labels'             => [
 		  'name'          => 'Portfolio',
 		  'singular_name' => 'Portfolio'
