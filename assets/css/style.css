@@ -343,16 +343,16 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
     position: relative;
     padding: 1.5rem .75rem;
     background-color: var(--color-white);
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-2xl);
+    border-radius: .5rem;
 }
 
 .tabcontent .portfolio-content:before {
     content: "";
     position: absolute;
-    width: 100%;
+    width: 120%;
     height: 70%;
-    border: 3px solid orangered;
-    border-right: none;
+    border: 3px solid var(--color-purple);
     border-bottom: none;
     left: -1rem;
     top: .25rem;
@@ -366,7 +366,7 @@ button[data-bs-toggle="modal"].modal-btn[data-bs-target="#getStartedModal"]:hove
 
 .tabcontent .portfolio-content h3 {
     margin: 1rem 0;
-    font-size: 1.15rem;
+    font-size: 1.45rem;
 }
 
 .tabcontent .portfolio-content a {
